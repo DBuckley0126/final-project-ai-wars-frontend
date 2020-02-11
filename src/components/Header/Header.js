@@ -1,6 +1,6 @@
-import React from 'react';
-import { useAuth0 } from '../../contexts/auth0-context';
-import './Header.scss'
+import React from "react";
+import { useAuth0 } from "../../contexts/auth0-context";
+import "./Header.scss";
 
 export default function Header() {
   const { isLoading, user, loginWithRedirect, logout } = useAuth0();
