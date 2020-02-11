@@ -1,14 +1,17 @@
-export default function testReducer(state = [], action) {
+export default function testReducer(state = {
+  count: 0
+}, action) {
 
   switch(action.type){
-    case "ADD_REVIEW":
-      // return (
-      //   [...state, {...action.payload, id: cuid()}]
-      // )
+    case "ADD_COUNT":
+      console.log({...state, count: state.count + action.payload})
+      return (
+        {...state, count: state.count + action.payload}
+      )
     case "REMOVE_REVIEW":
-      // return (
-      //   state.filter(review => review.id !== action.payload)
-      // )  
+      return (
+        state.filter(review => review.id !== action.payload)
+      )  
     default :
       return state  
   }
