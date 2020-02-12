@@ -1,9 +1,12 @@
 import React from "react";
-import { useAuth0 } from "../../contexts/auth0-context";
+import { useSelector } from "react-redux";
 import "./Header.scss";
 
 export default function Header() {
-  const { isLoading, user, loginWithRedirect, logout } = useAuth0();
+  const { isLoading, user, loginWithRedirect, logout } = useSelector(
+    state => state.auth0
+  );
+  console.log(user)
 
   return (
     <header>

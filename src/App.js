@@ -1,17 +1,17 @@
-import React, { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { testAction } from "./components/Counter/counterActions";
-import { useAuth0 } from "./contexts/auth0-context";
+import React from "react";
+import useAuth0 from "./hooks/Auth0/useAuth0";
 import Counter from "./components/Counter/Counter";
 import Header from "./components/Header/Header";
+import ActionCableButton from './components/ActionCableButton/ActionCableButton'
 
 const App = () => {
-  const { isLoading, user, loginWithRedirect, logout } = useAuth0;
+  useAuth0();
 
   return (
     <>
       <Header />
       <Counter />
+      <ActionCableButton />
     </>
   );
 };
