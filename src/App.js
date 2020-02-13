@@ -1,19 +1,15 @@
-import React from "react";
-import useAuth0 from "./hooks/Auth0/useAuth0";
-import Counter from "./components/Counter/Counter";
-import Header from "./components/Header/Header";
-import ActionCableButton from './components/ActionCableButton/ActionCableButton'
+import React, { useEffect } from "react";
+
+import MenuContainer from "./components/Menu/MenuContainer/MenuContainer";
+import { useSelector, useDispatch } from "react-redux";
+import SplashScreen from "./components/SplashScreen/SplashScreen";
 
 const App = () => {
-  useAuth0();
+  const startApp = useSelector(state => state.app.startApp);
+ 
+  // const auth0Loading = useSelector(state => state.auth0.isLoading);
 
-  return (
-    <>
-      <Header />
-      <Counter />
-      <ActionCableButton />
-    </>
-  );
+  return <>{startApp ? <MenuContainer /> : <SplashScreen />}</>;
 };
 
 export default App;

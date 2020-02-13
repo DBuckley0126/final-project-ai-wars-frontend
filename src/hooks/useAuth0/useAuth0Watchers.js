@@ -3,7 +3,7 @@ import { put, call, takeEvery, takeLatest } from "redux-saga/effects";
 
 import * as actions from "./useAuth0Actions";
 
-export default function* useAuth0Watcher() {
+export default function* Auth0Watcher() {
   yield takeLatest("SYNC_USER", syncUser);
 }
 
@@ -14,35 +14,31 @@ const checkRes = res => {
 };
 
 function* syncUser(action) {
-
   let configurationObject = {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      given_name: action.payload.given_name,
-      family_name: action.payload.family_name,
-      locale: action.payload.locale,
-      picture: action.payload.picture,
-      email: action.payload.given_name,
-      sub: action.payload.sub
-    })
+    body: JSON.stringify({ JWT: action.payload })
   };
 
   try {
-    yield put(actions.updateAuth0({ attemptingSync: true }));
     let res = yield fetch(
       "http://localhost:3000/user/create",
       configurationObject
     );
     yield checkRes(res);
-    let json = yield res.json();
-    let userData = json.data;
-    console.log(userData);
-    yield put(actions.updateAuth0({ attemptingSync: false, synced: true }));
+    let data = yield res.json();
+    yield put(
+      actions.updateAuth0({
+        synced: true,
+        persisted: data.persisted,
+        apiToken: data.api_token
+      })
+    );
   } catch (error) {
     console.log(error);
+    yield put(actions.updateAuth0({ synced: false }));
   }
 }

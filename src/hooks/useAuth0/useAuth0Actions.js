@@ -11,3 +11,9 @@ export const syncUser = object => {
     payload: object
   };
 };
+
+export const syncedUser = () => {
+  return {
+    type: "SYNCED_USER"
+  };
+};

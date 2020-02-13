@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import rootReducer from "./reducers/rootReducer";
 import createSagaMiddleware from "redux-saga";
-import useAuth0Watcher from "./hooks/Auth0/useAuth0Watchers";
+import Auth0Watcher from "./hooks/useAuth0/useAuth0Watchers";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,11 +17,11 @@ function configureStore(initialState) {
 
   store = createStoreWithMiddleware(rootReducer, initialState);
 
-  sagaMiddleware.run(useAuth0Watcher);
+  sagaMiddleware.run(Auth0Watcher);
 
   return store;
 }
 
 const store = configureStore();
 
-export default store
+export default store;
