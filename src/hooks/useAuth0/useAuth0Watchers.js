@@ -3,7 +3,7 @@ import { put, call, takeEvery, takeLatest } from "redux-saga/effects";
 
 import * as actions from "./useAuth0Actions";
 
-export default function* Auth0Watcher() {
+export default function* useAuth0Watchers() {
   yield takeLatest("SYNC_USER", syncUser);
 }
 

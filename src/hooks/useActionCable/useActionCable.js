@@ -4,6 +4,7 @@ import { addCable } from "./useActionCableActions";
 
 const useActionCable = apiToken => {
   const dispatch = useDispatch();
+
   dispatch(addCable(createActionCable(apiToken)));
 };
 

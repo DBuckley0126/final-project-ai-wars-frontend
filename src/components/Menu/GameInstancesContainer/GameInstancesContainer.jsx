@@ -4,8 +4,24 @@ import useGameInstancesOverseer from "../../../hooks/useGameInstancesOverseer/us
 
 const GameInstancesContainer = () => {
   useGameInstancesOverseer();
+  const subscription = useSelector(
+    state => state.gameInstancesOverseer.subscription
+  );
 
-  return <p>Game</p>;
+  let payload = {
+    channel: "game_instances_overseer_channel",
+    type: "subscribed",
+    action: "SUCCESSFULLY_SUBSCRIBED",
+    header: {},
+    body: { test: "test" }
+  };
+
+  return (
+    <>
+      <p>Game</p>
+      <button onClick={() => subscription.joinGame(payload)}>Join game</button>
+    </>
+  );
 };
 
 export default GameInstancesContainer;
