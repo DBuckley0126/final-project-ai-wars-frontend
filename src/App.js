@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import MenuContainer from "./components/Menu/MenuContainer/MenuContainer";
+import MenuContainer from "./containers/MenuContainer/MenuContainer";
 import { useSelector, useDispatch } from "react-redux";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 

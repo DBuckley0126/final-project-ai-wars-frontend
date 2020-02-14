@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   addGameInstanceOverseerSub,
-  updateError, updateSubscribed, updateGameInstances
+  updateError,
+  updateSubscribed,
+  updateGameInstances
 } from "./useGameInstancesOverseerActions";
 
 const useGameInstancesOverseer = () => {
@@ -9,7 +11,6 @@ const useGameInstancesOverseer = () => {
   const cable = useSelector(state => state.gameInstancesOverseer.cable);
   const userSynced = useSelector(state => state.auth0.synced);
   const user = useSelector(state => state.auth0.user);
-  console.log(cable);
 
   const createSubscription = async () => {
     let gameInstanceOverseerSub = null;
@@ -18,12 +19,9 @@ const useGameInstancesOverseer = () => {
         { channel: "GameInstancesOverseerChannel" },
         {
           received: function(data) {
-            console.log("Received Data");
             dataHandler(data);
           },
-          joinGame: function(payload) {
-            console.log("join game hit");
-            console.log(this);
+          joinGame(payload) {
             this.perform("join_game", payload);
           },
           rejected: function(data) {
@@ -44,7 +42,7 @@ const useGameInstancesOverseer = () => {
   const dataHandler = data => {
     switch (data["type"]) {
       case "subscribed":
-        switch (data["action"]){
+        switch (data["action"]) {
           case "SUCCESSFULLY_SUBSCRIBED":
             dispatch(updateSubscribed(true));
             break;
