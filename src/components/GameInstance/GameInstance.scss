@@ -1,0 +1,18 @@
+.game-instance-overview {
+  background: #724ce6;
+  width: 400px;
+  height: 200px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: baseline;
+  align-content: center;
+  margin: 50px;
+
+  .user-profile-picture {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+

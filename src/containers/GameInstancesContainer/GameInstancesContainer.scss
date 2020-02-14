@@ -1,0 +1,13 @@
+.game-instances-container {
+  background: #535353;
+  width: 1000px;
+  height: 1000px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: center;
+  margin: 50px;
+  overflow-y: hidden;
+}
