@@ -5,13 +5,12 @@ export default function gameInstancesOverseerReducer(
     subscription: null,
     error: false,
     joinedGame: null,
-    subscribed: false
+    subscribedToGameOverseer: false
   },
   action
 ) {
   switch (action.type) {
     case "ADD_CABLE":
-      console.log("CABLE ADDED");
       return {
         ...state,
         gameInstances: state.gameInstances,
@@ -24,39 +23,17 @@ export default function gameInstancesOverseerReducer(
         subscription: action.payload,
         error: false
       };
-    case "JOIN_GAME":
-      let subscriptionPayload = {
-        channel: "game_instances_overseer_channel",
-        type: "join_game",
-        action: "REQUEST_JOIN_GAME",
-        header: {},
-        body: {
-          game_id: action.payload.game_id,
-          user_sub: action.payload.user_sub
-        }
-      };
-      state.subscription.joinGame(subscriptionPayload);
-      return {
-        ...state,
-        gameInstances: state.gameInstances
-      };
-    case "JOINED_GAME":
-      return {
-        ...state,
-        gameInstances: state.gameInstances,
-        joinedGame: action.payload
-      };
     case "UPDATE_ERROR":
       return {
         ...state,
         gameInstances: state.gameInstances,
         error: action.payload
       };
-    case "UPDATE_SUBSCRIBED":
+    case "UPDATE_SUBSCRIBED_TO_GAME_OVERSEER":
       return {
         ...state,
         gameInstances: state.gameInstances,
-        subscribed: action.payload
+        subscribedToGameOverseer: action.payload
       };
     case "UPDATE_GAME_INSTANCES":
       console.log(action.payload.data);

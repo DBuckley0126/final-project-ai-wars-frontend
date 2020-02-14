@@ -1,12 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { joinGame } from "./GameInstanceActions";
+import GameLobby from "../GameLobby/GameLobby";
 import "./GameInstance.scss";
 
 const GameInstance = props => {
   const gameInstance = props.gameInstance;
+  const setJoinGameRequest = props.setJoinGameRequest;
   const dispatch = useDispatch();
-  const user = useSelector(state => state.auth0.user);
+  // const user = useSelector(state => state.auth0.user);
 
   // const handleClick = event => {
   //   dispatch(joinGame());
@@ -28,11 +30,10 @@ const GameInstance = props => {
           <h5>{gameInstance.attributes.host_user.skill_rating}</h5>
 
           <button
-            onClick={() =>
-              dispatch(
-                joinGame({ game_id: gameInstance.id, user_sub: user.sub })
-              )
-            }
+            onClick={() => {
+              console.log("Join button clicked")
+              setJoinGameRequest({joinGame: true, gameId: gameInstance.id});
+            }}
           >
             Join
           </button>
@@ -61,8 +62,6 @@ const GameInstance = props => {
   };
 
   return generate_game_instance_view();
-  
-  
 };
 
 export default GameInstance;

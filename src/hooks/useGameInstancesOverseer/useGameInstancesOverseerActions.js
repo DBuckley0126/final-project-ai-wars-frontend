@@ -19,9 +19,9 @@ export const joinedGame = payload => {
   };
 };
 
-export const updateSubscribed = boolean => {
+export const updateSubscribedToGameOverseer = boolean => {
   return {
-    type: "UPDATE_SUBSCRIBED",
+    type: "UPDATE_SUBSCRIBED_TO_GAME_OVERSEER",
     payload: boolean
   };
 };

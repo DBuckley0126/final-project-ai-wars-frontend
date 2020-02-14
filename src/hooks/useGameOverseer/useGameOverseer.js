@@ -1,31 +1,29 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addGameInstanceOverseerSub,
-  updateError,
-  updateSubscribed,
-  updateGameInstances
-} from "./useGameInstancesOverseerActions";
+  addGameOverseerSub,
+  updateErrorForGameOverseer,
+  updateSubscribedToGame,
+  rejectGameSubscription,
+  updateGameLobby
+} from "./useGameOverseerActions";
 
-const useGameOverseer = () => {
+const useGameOverseer = gameId => {
   const dispatch = useDispatch();
-  const cable = useSelector(state => state.gameInstancesOverseer.cable);
+  const cable = useSelector(state => state.gameOverseer.cable);
   const userSynced = useSelector(state => state.auth0.synced);
   const user = useSelector(state => state.auth0.user);
 
   const createSubscription = async () => {
-    let gameInstanceOverseerSub = null;
+    let gameOverseerSub = null;
     try {
-      gameInstanceOverseerSub = cable.subscriptions.create(
-        { channel: "GameInstancesOverseerChannel" },
+      gameOverseerSub = cable.subscriptions.create(
+        { channel: "GameOverseerChannel", game_id: gameId },
         {
           received: function(data) {
             dataHandler(data);
           },
-          joinGame(payload) {
-            this.perform("join_game", payload);
-          },
-          rejected: function(data) {
-            throw data;
+          rejected: function() {
+            dispatch(rejectGameSubscription(true));
           },
           unsubscribed: function(data) {
             console.log(data);
@@ -34,25 +32,30 @@ const useGameOverseer = () => {
       );
     } catch (error) {
       console.log(error);
-      dispatch(updateError(true));
+      dispatch(updateErrorForGameOverseer(true));
     }
-    dispatch(addGameInstanceOverseerSub(gameInstanceOverseerSub));
+    dispatch(addGameOverseerSub(gameOverseerSub));
   };
 
   const dataHandler = data => {
     switch (data["type"]) {
       case "subscribed":
         switch (data["action"]) {
-          case "SUCCESSFULLY_SUBSCRIBED":
-            dispatch(updateSubscribed(true));
-            break;
-          case "UPDATE_GAME_INSTANCES":
-            dispatch(updateGameInstances(data.body));
+          case "SUCCESSFULLY_SUBSCRIBED_TO_GAME":
+            dispatch(
+              updateSubscribedToGame({
+                success: true,
+                joinedGameId: data.body.game_id
+              })
+            );
             break;
           default:
             console.log("WARNING: Unable to process data received from socket");
             console.log(data);
         }
+        break;
+      case "update_game_lobby":
+        dispatch(updateGameLobby(data.body));
         break;
       default:
         console.log("WARNING: Unable to process data received from socket");

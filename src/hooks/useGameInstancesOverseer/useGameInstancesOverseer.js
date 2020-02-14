@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addGameInstanceOverseerSub,
   updateError,
-  updateSubscribed,
+  updateSubscribedToGameOverseer,
   updateGameInstances
 } from "./useGameInstancesOverseerActions";
 
@@ -20,9 +20,6 @@ const useGameInstancesOverseer = () => {
         {
           received: function(data) {
             dataHandler(data);
-          },
-          joinGame(payload) {
-            this.perform("join_game", payload);
           },
           rejected: function(data) {
             throw data;
@@ -44,7 +41,7 @@ const useGameInstancesOverseer = () => {
       case "subscribed":
         switch (data["action"]) {
           case "SUCCESSFULLY_SUBSCRIBED":
-            dispatch(updateSubscribed(true));
+            dispatch(updateSubscribedToGameOverseer(true));
             break;
           case "UPDATE_GAME_INSTANCES":
             dispatch(updateGameInstances(data.body));
