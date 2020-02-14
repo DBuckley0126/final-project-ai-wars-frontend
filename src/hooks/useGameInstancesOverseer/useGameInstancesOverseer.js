@@ -43,13 +43,13 @@ const useGameInstancesOverseer = () => {
           case "SUCCESSFULLY_SUBSCRIBED":
             dispatch(updateSubscribedToGameOverseer(true));
             break;
-          case "UPDATE_GAME_INSTANCES":
-            dispatch(updateGameInstances(data.body));
-            break;
           default:
             console.log("WARNING: Unable to process data received from socket");
             console.log(data);
         }
+        break;
+      case "update_game_instances":
+        dispatch(updateGameInstances(data.body));
         break;
       default:
         console.log("WARNING: Unable to process data received from socket");

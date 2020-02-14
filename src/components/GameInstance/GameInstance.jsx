@@ -3,8 +3,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { joinGame } from "./GameInstanceActions";
 import GameLobby from "../GameLobby/GameLobby";
 import "./GameInstance.scss";
+var diff = require('deep-diff').diff;
 
 const GameInstance = props => {
+  console.log(`GAME INSTANCE RENDERED ${props.gameInstance.id}`);
   const gameInstance = props.gameInstance;
   const setJoinGameRequest = props.setJoinGameRequest;
   const dispatch = useDispatch();
@@ -31,8 +33,8 @@ const GameInstance = props => {
 
           <button
             onClick={() => {
-              console.log("Join button clicked")
-              setJoinGameRequest({joinGame: true, gameId: gameInstance.id});
+              console.log("Join button clicked");
+              setJoinGameRequest({ joinGame: true, gameId: gameInstance.id });
             }}
           >
             Join
@@ -64,4 +66,15 @@ const GameInstance = props => {
   return generate_game_instance_view();
 };
 
-export default GameInstance;
+function areEqual(prevProps, nextProps) {
+  let differences = diff(prevProps, nextProps);
+  return differences ? false : true;
+
+  /*
+  return true if passing nextProps to render would return
+  the same result as passing prevProps to render,
+  otherwise return false
+  */
+}
+
+export default React.memo(GameInstance, areEqual);
