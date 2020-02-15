@@ -3,11 +3,11 @@ export default function gameReducer(
     cable: null,
     subscription: null,
     error: false,
-    joinedGameId: null,
-    subscribedToGame: false,
+    subscriptionSucessful: null,
     rejected: false,
     lobbyData: {},
-    gameData: {}
+    gameData: {},
+    lobbyDataRetrieved: false
   },
   action
 ) {
@@ -32,13 +32,13 @@ export default function gameReducer(
         ...state,
         lobbyData: { ...state.lobbyData },
         gameData: { ...state.gameData },
-        joinedGameId: action.payload.joinedGameId,
         error: false,
-        subscribedToGame: action.payload.success
+        subscriptionSucessful: action.payload.success
       };
     case "UPDATE_GAME_LOBBY":
       return {
         ...state,
+        lobbyDataRetrieved: true,
         lobbyData: action.payload.data,
         gameData: { ...state.gameData }
       };
@@ -53,10 +53,12 @@ export default function gameReducer(
     case "REJECT_GAME_SUBSCRIPTION":
       return {
         ...state,
-        lobbyData: { ...state.lobbyData },
+        lobbyDataRetrieved: false,
         gameData: { ...state.gameData },
         rejected: action.payload,
-        error: true
+        subscriptionSucessful: false,
+        subscription: null,
+        error: action.payload
       };
 
     default:

@@ -1,18 +1,26 @@
 import React from "react";
-import useGameOverseer from "../../hooks/useGameOverseer/useGameOverseer";
+
 import { useSelector, useDispatch } from "react-redux";
 
-const GameLobby = props => {
-  console.log("Game lobby rendered")
-  const gameId = props.gameId;
-  // const user =  useSelector(state => state.auth0.user)
-  useGameOverseer(gameId);
+const GameLobby = () => {
+  console.log("Game lobby rendered");
 
-  return (
-    <>
+  const lobbyData = useSelector(state => state.gameOverseer.lobbyData);
 
-    </>
-  );
+  const generateLobbyState = () => {
+    return (
+      <div className="lobby-container lobby-container-active">
+        <div className="user-lobby-container host-user-lobby-container">
+          <h4>{lobbyData.attributes.host_user.full_name}</h4>
+        </div>
+        <div className="user-lobby-container join-user-lobby-container">
+          <h4>{lobbyData.attributes.join_user.full_name}</h4>
+        </div>
+      </div>
+    );
+  };
+
+  return <>{generateLobbyState()}</>;
 };
 
 export default GameLobby;

@@ -1,6 +1,8 @@
-export const joinGame = payload => {
+export const initGameOverseerSubscription = (payload, cable, dispatch) => {
   return {
-    type: "JOIN_GAME",
-    payload: payload
+    type: "INIT_GAME_OVERSEER_SUBSCRIPTION",
+    payload: payload,
+    cable: cable,
+    dispatch: dispatch
   };
 };

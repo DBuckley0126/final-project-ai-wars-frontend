@@ -1,20 +1,15 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { joinGame } from "./GameInstanceActions";
-import GameLobby from "../GameLobby/GameLobby";
 import "./GameInstance.scss";
-var diff = require('deep-diff').diff;
+import { initGameOverseerSubscription } from "./GameInstanceActions";
+var diff = require("deep-diff").diff;
 
 const GameInstance = props => {
   console.log(`GAME INSTANCE RENDERED ${props.gameInstance.id}`);
   const gameInstance = props.gameInstance;
-  const setJoinGameRequest = props.setJoinGameRequest;
-  const dispatch = useDispatch();
-  // const user = useSelector(state => state.auth0.user);
 
-  // const handleClick = event => {
-  //   dispatch(joinGame());
-  // };
+  const dispatch = useDispatch();
+  const cable = useSelector(state => state.gameOverseer.cable);
 
   const generate_game_instance_view = () => {
     if (gameInstance.attributes.capacity === "WAITING") {
@@ -34,7 +29,9 @@ const GameInstance = props => {
           <button
             onClick={() => {
               console.log("Join button clicked");
-              setJoinGameRequest({ joinGame: true, gameId: gameInstance.id });
+              dispatch(
+                initGameOverseerSubscription(gameInstance.id, cable, dispatch)
+              );
             }}
           >
             Join

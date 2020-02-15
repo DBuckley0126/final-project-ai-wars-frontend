@@ -4,8 +4,7 @@ export default function gameInstancesOverseerReducer(
     gameInstances: [],
     subscription: null,
     error: false,
-    joinedGame: null,
-    subscribedToGameOverseer: false
+    subscriptionSucessful: null
   },
   action
 ) {
@@ -23,17 +22,26 @@ export default function gameInstancesOverseerReducer(
         subscription: action.payload,
         error: false
       };
-    case "UPDATE_ERROR":
+    case "REJECT_GAME_INSTANCES_OVERSEER_SUBSCRIPTION":
       return {
         ...state,
         gameInstances: state.gameInstances,
-        error: action.payload
+        subscriptionSucessful: action.payload,
+        error: true
       };
     case "UPDATE_SUBSCRIBED_TO_GAME_OVERSEER":
       return {
         ...state,
         gameInstances: state.gameInstances,
-        subscribedToGameOverseer: action.payload
+        subscription: action.payload,
+        error: false,
+        subscriptionSucessful: true
+      };
+    case "UPDATE_ERROR_FOR_GAME_INSTANCES_OVERSEER":
+      return {
+        ...state,
+        gameInstances: state.gameInstances,
+        error: action.payload
       };
     case "UPDATE_GAME_INSTANCES":
       console.log(action.payload.data);

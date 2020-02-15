@@ -1,7 +1,6 @@
-export const joinGame = payload => {
-  console.log("hit action join game")
+export const initActionCable = apiToken => {
   return {
-    type: "JOIN_GAME",
-    payload: payload
+    type: "INIT_ACTION_CABLE",
+    apiToken: apiToken
   };
 };

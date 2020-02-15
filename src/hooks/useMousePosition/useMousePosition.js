@@ -9,4 +9,4 @@ const useMousePosition = callback => {
   }, []);
 };
 
-export default useMousePosition
+export default useMousePosition;

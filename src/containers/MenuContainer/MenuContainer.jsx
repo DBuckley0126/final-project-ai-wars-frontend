@@ -1,24 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import GameInstancesContainer from "../GameInstancesContainer/GameInstancesContainer";
-import useActionCable from "../../hooks/useActionCable/useActionCable";
-import { joinGame } from "./MenuContainerActions";
-import useGameInstancesOverseer from "../../hooks/useGameInstancesOverseer/useGameInstancesOverseer";
+import { initActionCable } from "./MenuContainerActions";
+
+import GameLobby from "../../components/GameLobby/GameLobby";
 
 const MenuContainer = () => {
   console.log("Rendering Menu Container");
-  const apiToken = useSelector(state => state.auth0.apiToken);
 
-  useActionCable(apiToken);
-  useGameInstancesOverseer();
+  const dispatch = useDispatch();
+  const apiToken = useSelector(state => state.auth0.apiToken);
+  const cable = useSelector(state => state.gameInstancesOverseer.cable);
+
+  useEffect(() => {
+    dispatch(initActionCable(apiToken));
+  }, [apiToken, dispatch]);
+
+  const lobbyDataRetrieved = useSelector(
+    state => state.gameOverseer.lobbyDataRetrieved
+  );
+
+  const renderGameLobby = () => {
+    if (lobbyDataRetrieved) {
+      return <GameLobby />;
+    }
+    return null;
+  };
+
+  const renderGameInstances = () => {
+    if (cable) {
+      return <GameInstancesContainer />;
+    }
+  };
 
   return (
     <div>
-      <GameInstancesContainer />
+      {renderGameInstances()}
+      {renderGameLobby()}
     </div>
   );
-
-  // return <></>
 };
 
 export default MenuContainer;
