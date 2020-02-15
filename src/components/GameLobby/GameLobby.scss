@@ -1,0 +1,43 @@
+.lobby-container{
+  background: #816767;
+  width: 1000px;
+  height: 1000px;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+  align-content: center;
+
+  .user-lobby-container{
+    width: 500px;
+    height:1000px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    align-content: center;
+
+    .lobby-user-attributes{
+      .user-profile-picture {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+
+  .join-user-lobby-container{
+    background: #b92f2f;
+  }
+
+  .host-user-lobby-container{
+    background: #382fb9;
+  }
+
+
+} 

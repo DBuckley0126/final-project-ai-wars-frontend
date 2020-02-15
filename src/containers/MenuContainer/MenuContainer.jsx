@@ -34,7 +34,7 @@ const MenuContainer = () => {
   };
 
   return (
-    <div>
+    <div className="menu-container">
       {renderGameInstances()}
       {renderGameLobby()}
     </div>

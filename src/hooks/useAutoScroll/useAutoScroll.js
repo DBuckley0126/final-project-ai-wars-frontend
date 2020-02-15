@@ -11,8 +11,8 @@ function useAutoScroll() {
   const onMouseMove = event => {
 
     let mouseRelativeXY = {
-      x: event.pageX - ref.current.offsetLeft,
-      y: event.pageY - ref.current.offsetTop
+      x: event.pageX - (ref.current.offsetLeft - (ref.current.offsetWidth / 2)),
+      y: event.pageY - (ref.current.offsetTop - (ref.current.offsetHeight / 2))
     };
 
     let refDimensions = {
@@ -51,9 +51,11 @@ function useAutoScroll() {
     };
 
     if (mouseWithinSection(areaCooridatesA)) {
+      console.log("Mouse in A")
       scrollUp = true;
       scrollDown = false;
     } else if (mouseWithinSection(areaCooridatesB)) {
+      console.log("Mouse in B")
       scrollDown = true;
       scrollUp = false;
     } else {
