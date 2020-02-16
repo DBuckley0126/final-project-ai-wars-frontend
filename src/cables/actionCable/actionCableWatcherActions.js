@@ -1,6 +1,6 @@
-export const addCable = cable => {
+export const addCable = payload => {
   return {
     type: "ADD_CABLE",
-    payload: cable
+    payload: payload
   };
 };

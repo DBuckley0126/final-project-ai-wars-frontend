@@ -2,6 +2,7 @@ import React from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import "./GameLobby.scss";
+import ReadyUpButton from "../ReadyUpButton/ReadyUpButton";
 
 const GameLobby = () => {
   console.log("Game lobby rendered");
@@ -40,11 +41,14 @@ const GameLobby = () => {
       <div className="lobby-container">
         <div className="user-lobby-container host-user-lobby-container">
           <p>Host User</p>
-          {lobbyData.attributes.host_user && renderUserAttributes(lobbyData.attributes.host_user)}
+          {lobbyData.attributes.host_user &&
+            renderUserAttributes(lobbyData.attributes.host_user)}
         </div>
         <div className="user-lobby-container join-user-lobby-container">
-          {lobbyData.attributes.join_user && renderUserAttributes(lobbyData.attributes.join_user)}
+          {lobbyData.attributes.join_user &&
+            renderUserAttributes(lobbyData.attributes.join_user)}
         </div>
+        <ReadyUpButton lobbyData={lobbyData} />
       </div>
     );
   };

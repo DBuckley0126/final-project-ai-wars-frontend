@@ -10,7 +10,8 @@ export default function* actionCableWatchers() {
 
 function* initActionCable(action) {
   const actions = importedActions;
-  const apiToken = action.apiToken;
+  const apiToken = action.payload.apiToken;
+  const dispatch = action.payload.dispatch;
 
   let cable = null;
 
@@ -27,7 +28,7 @@ function* initActionCable(action) {
       );
     }
     if (!cable) throw "ERROR: Unable to create cable";
-    yield put(actions.addCable(cable));
+    yield put(actions.addCable({ cable, dispatch }));
   } catch (error) {
     console.log(error);
   }

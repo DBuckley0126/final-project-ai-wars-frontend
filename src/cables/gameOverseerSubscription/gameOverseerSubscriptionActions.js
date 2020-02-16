@@ -5,8 +5,6 @@ export const addGameOverseerSub = sub => {
   };
 };
 
-
-
 export const updateErrorForGameOverseer = boolean => {
   return {
     type: "UPDATE_ERROR_FOR_GAME_OVERSEER",
@@ -28,3 +26,14 @@ export const updateGameLobby = payload => {
   };
 };
 
+export const resetGameOverseer = () => {
+  return {
+    type: "RESET_GAME_OVERSEER"
+  };
+};
+
+export const exitLobby = () => {
+  return {
+    type: "EXIT_LOBBY"
+  };
+};

@@ -1,12 +1,6 @@
-export const initGameInstancesOverseerSubscription = (
-  boolean,
-  cable,
-  dispatch
-) => {
+export const initGameInstancesOverseerSubscription = boolean => {
   return {
     type: "INIT_GAME_INSTANCES_OVERSEER_SUBSCRIPTION",
-    userSynced: boolean,
-    cable: cable,
-    dispatch: dispatch
+    userSynced: boolean
   };
 };

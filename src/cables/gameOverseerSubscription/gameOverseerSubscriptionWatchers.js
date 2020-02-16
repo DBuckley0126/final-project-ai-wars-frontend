@@ -2,28 +2,55 @@ import { delay } from "redux-saga";
 import { put, call, takeEvery, takeLatest } from "redux-saga/effects";
 
 import * as importedActions from "./gameOverseerSubscriptionActions";
+const uuidv4 = require("uuid/v4");
 
-export default function* gameOverseerCable0Watchers() {
+export default function* gameOverseerCableWatchers() {
   yield takeEvery(
     "INIT_GAME_OVERSEER_SUBSCRIPTION",
     initGameOverseerSubscription
   );
+  yield takeEvery("EXIT_LOBBY", exitLobby);
+  yield takeEvery("ADD_CABLE", addCable);
+  yield takeEvery("UPDATE_USER_LOBBY_STATUS", updateUserLobbyStatus);
+}
+
+let cable = null;
+let gameOverseerSub = null;
+let dispatch = null;
+
+function* addCable(action) {
+  const actions = importedActions;
+  try {
+    yield (cable = action.payload.cable);
+    yield (dispatch = action.payload.dispatch);
+  } catch (error) {
+    console.log(error);
+    yield put(actions.updateErrorForGameOverseer(true));
+  }
+}
+
+function* updateUserLobbyStatus(action) {
+  const actions = importedActions;
+  try {
+    gameOverseerSub.updateUserLobbyStatus(action.payload);
+  } catch (error) {
+    console.log(error);
+    yield put(actions.updateErrorForGameOverseer(true));
+  }
 }
 
 function* initGameOverseerSubscription(action) {
-  const gameId = action.payload.gameId;
-  const requestType = action.payload.requestType;
-  const cable = action.cable;
-  const actions = importedActions;
-  const dispatch = action.dispatch;
+  let gameUuid = uuidv4();
+  if (action.payload["gameUuid"]) gameUuid = action.payload["gameUuid"];
 
-  let gameOverseerSub = null;
+  const requestType = action.payload.requestType;
+  const actions = importedActions;
 
   try {
     gameOverseerSub = yield cable.subscriptions.create(
       {
         channel: "GameOverseerChannel",
-        game_id: gameId,
+        game_uuid: gameUuid,
         request_type: requestType
       },
       {
@@ -34,8 +61,11 @@ function* initGameOverseerSubscription(action) {
           console.log("WARNING: Game subscription rejected from server");
           dispatch(actions.rejectGameSubscription(true));
         },
-        unsubscribed: function(data) {
+        unsubscribed: function() {
           this.perform("unsubscribed");
+        },
+        updateUserLobbyStatus: function(payload) {
+          this.perform("update_user_lobby_status", payload);
         }
       }
     );
@@ -64,6 +94,8 @@ function* initGameOverseerSubscription(action) {
           case "SUCCESSFULLY_UNSUBSCRIBED_TO_GAME":
             dispatch(actions.successfullyUnsubscribedToGame());
             break;
+          case "CANCEL_LOBBY":
+            dispatch(actions.exitLobby());
           default:
             console.log("WARNING: Unable to process data received from socket");
             console.log(data);
@@ -73,4 +105,17 @@ function* initGameOverseerSubscription(action) {
         console.log(data);
     }
   };
+}
+
+function* exitLobby(action) {
+  const actions = importedActions;
+
+  try {
+    yield gameOverseerSub.unsubscribe();
+    yield put(actions.resetGameOverseer());
+    yield (gameOverseerSub = null);
+  } catch (error) {
+    console.log(error);
+    yield put(actions.updateErrorForGameOverseer(true));
+  }
 }

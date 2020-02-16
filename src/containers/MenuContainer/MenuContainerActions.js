@@ -1,6 +1,6 @@
-export const initActionCable = apiToken => {
+export const initActionCable = payload => {
   return {
     type: "INIT_ACTION_CABLE",
-    apiToken: apiToken
+    payload: payload
   };
 };

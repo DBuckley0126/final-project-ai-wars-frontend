@@ -8,17 +8,27 @@ export default function* gameInstancesOverseerCable0Watchers() {
     "INIT_GAME_INSTANCES_OVERSEER_SUBSCRIPTION",
     initGameInstancesOverseerSubscription
   );
+  yield takeEvery("ADD_CABLE", addCable);
+}
+
+let cable = null;
+let gameInstanceOverseerSub = null;
+let dispatch = null;
+
+function* addCable(action) {
+  const actions = importedActions;
+  try {
+    yield (cable = action.payload.cable);
+    yield (dispatch = action.payload.dispatch);
+  } catch (error) {
+    console.log(error);
+    yield put(actions.updateErrorForGameInstancesOverseer(true));
+  }
 }
 
 function* initGameInstancesOverseerSubscription(action) {
-  const cable = action.cable;
   const actions = importedActions;
-  const dispatch = action.dispatch;
   const userSynced = action.userSynced;
-
-  // const userSynced = useSelector(state => state.auth0.synced);  //NEED
-
-  let gameInstanceOverseerSub = null;
 
   try {
     if (userSynced === false) throw "ERROR: User is not synced to database";

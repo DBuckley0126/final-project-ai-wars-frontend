@@ -1,8 +1,6 @@
-export const initGameOverseerSubscription = (payload, cable, dispatch) => {
+export const initGameOverseerSubscription = payload => {
   return {
     type: "INIT_GAME_OVERSEER_SUBSCRIPTION",
-    payload: payload,
-    cable: cable,
-    dispatch: dispatch
+    payload: payload
   };
 };

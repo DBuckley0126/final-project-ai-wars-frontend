@@ -9,7 +9,6 @@ const GameInstance = props => {
   const gameInstance = props.gameInstance;
 
   const dispatch = useDispatch();
-  const cable = useSelector(state => state.gameOverseer.cable);
 
   const generate_game_instance_view = () => {
     if (gameInstance.attributes.capacity === "WAITING") {
@@ -17,7 +16,7 @@ const GameInstance = props => {
         <div
           className={"game-instance-overview game-instance-overview-waiting"}
         >
-          <p>{gameInstance.id}</p>
+          <p>{gameInstance.attributes.uuid}</p>
           <img
             src={gameInstance.attributes.host_user.picture}
             alt="Host User Profile"
@@ -30,11 +29,10 @@ const GameInstance = props => {
             onClick={() => {
               console.log("Join button clicked");
               dispatch(
-                initGameOverseerSubscription(
-                  { gameId: gameInstance.id, requestType: "JOIN_GAME" },
-                  cable,
-                  dispatch
-                )
+                initGameOverseerSubscription({
+                  gameUuid: gameInstance.attributes.uuid,
+                  requestType: "JOIN_LOBBY"
+                })
               );
             }}
           >

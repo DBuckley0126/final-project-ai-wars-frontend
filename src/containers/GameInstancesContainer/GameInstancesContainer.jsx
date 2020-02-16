@@ -14,10 +14,8 @@ const GameInstancesContainer = () => {
   console.log("Game Instance Container rendered");
 
   useEffect(() => {
-    dispatch(
-      initGameInstancesOverseerSubscription(userSynced, cable, dispatch)
-    );
-  }, []);
+    dispatch(initGameInstancesOverseerSubscription(userSynced));
+  }, [userSynced]);
 
   const [scrollComponentRef] = useAutoScroll();
 

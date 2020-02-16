@@ -16,8 +16,8 @@ const MenuContainer = () => {
   const cable = useSelector(state => state.gameInstancesOverseer.cable);
 
   useEffect(() => {
-    dispatch(initActionCable(apiToken));
-  }, [apiToken, dispatch]);
+    dispatch(initActionCable({ apiToken, dispatch }));
+  }, []);
 
   const subscriptionActive = useSelector(
     state => state.gameOverseer.subscriptionActive

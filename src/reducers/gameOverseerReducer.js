@@ -49,15 +49,14 @@ export default function gameOverseerReducer(
         subscription: null,
         error: action.payload
       };
-    case "EXIT_LOBBY":
-      state.subscription.unsubscribe();
+    case "RESET_GAME_OVERSEER":
       return {
         ...state,
-        gameData: { ...state.gameData },
-        rejected: action.payload,
+        gameData: false,
+        rejected: false,
         subscriptionActive: false,
         subscription: null,
-        error: action.payload
+        error: false
       };
     default:
       return state;

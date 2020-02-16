@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./GeneralButton.scss";
 
-import { exitLobby } from "./GeneralButtonActions";
+import { exitLobby, initGameOverseerSubscription } from "./GeneralButtonActions";
 
 const GeneralButton = () => {
   const gameSubscriptionActive = useSelector(
@@ -19,7 +19,21 @@ const GeneralButton = () => {
         </div>
       );
     } else {
-      return <div className="general-button general-button-create-game">+</div>;
+      return (
+        <div className="general-button general-button-create-game">
+          <button
+            onClick={() =>
+              dispatch(
+                initGameOverseerSubscription({
+                  requestType: "CREATE_LOBBY"
+                })
+              )
+            }
+          >
+            +
+          </button>
+        </div>
+      );
     }
   };
 
