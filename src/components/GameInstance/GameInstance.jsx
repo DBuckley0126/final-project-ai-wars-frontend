@@ -30,7 +30,11 @@ const GameInstance = props => {
             onClick={() => {
               console.log("Join button clicked");
               dispatch(
-                initGameOverseerSubscription(gameInstance.id, cable, dispatch)
+                initGameOverseerSubscription(
+                  { gameId: gameInstance.id, requestType: "JOIN_GAME" },
+                  cable,
+                  dispatch
+                )
               );
             }}
           >

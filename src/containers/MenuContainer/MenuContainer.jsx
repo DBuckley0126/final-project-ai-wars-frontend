@@ -4,6 +4,9 @@ import GameInstancesContainer from "../GameInstancesContainer/GameInstancesConta
 import { initActionCable } from "./MenuContainerActions";
 
 import GameLobby from "../../components/GameLobby/GameLobby";
+import GeneralButton from "../../components/GeneralButton/GeneralButton";
+
+// import './MenuContainer.scss'
 
 const MenuContainer = () => {
   console.log("Rendering Menu Container");
@@ -16,12 +19,12 @@ const MenuContainer = () => {
     dispatch(initActionCable(apiToken));
   }, [apiToken, dispatch]);
 
-  const lobbyDataRetrieved = useSelector(
-    state => state.gameOverseer.lobbyDataRetrieved
+  const subscriptionActive = useSelector(
+    state => state.gameOverseer.subscriptionActive
   );
 
   const renderGameLobby = () => {
-    if (lobbyDataRetrieved) {
+    if (subscriptionActive) {
       return <GameLobby />;
     }
     return null;
@@ -35,6 +38,7 @@ const MenuContainer = () => {
 
   return (
     <div className="menu-container">
+      <GeneralButton />
       {renderGameInstances()}
       {renderGameLobby()}
     </div>

@@ -1,13 +1,12 @@
-export default function gameReducer(
+export default function gameOverseerReducer(
   state = {
     cable: null,
     subscription: null,
     error: false,
-    subscriptionSucessful: null,
+    subscriptionActive: null,
     rejected: false,
     lobbyData: {},
-    gameData: {},
-    lobbyDataRetrieved: false
+    gameData: {}
   },
   action
 ) {
@@ -27,18 +26,10 @@ export default function gameReducer(
         subscription: action.payload,
         error: false
       };
-    case "UPDATE_SUBSCRIBED_TO_GAME":
-      return {
-        ...state,
-        lobbyData: { ...state.lobbyData },
-        gameData: { ...state.gameData },
-        error: false,
-        subscriptionSucessful: action.payload.success
-      };
     case "UPDATE_GAME_LOBBY":
       return {
         ...state,
-        lobbyDataRetrieved: true,
+        subscriptionActive: true,
         lobbyData: action.payload.data,
         gameData: { ...state.gameData }
       };
@@ -47,20 +38,27 @@ export default function gameReducer(
         ...state,
         lobbyData: { ...state.lobbyData },
         gameData: { ...state.gameData },
-        gameInstances: state.gameInstances,
         error: action.payload
       };
     case "REJECT_GAME_SUBSCRIPTION":
       return {
         ...state,
-        lobbyDataRetrieved: false,
         gameData: { ...state.gameData },
         rejected: action.payload,
-        subscriptionSucessful: false,
+        subscriptionActive: false,
         subscription: null,
         error: action.payload
       };
-
+    case "EXIT_LOBBY":
+      state.subscription.unsubscribe();
+      return {
+        ...state,
+        gameData: { ...state.gameData },
+        rejected: action.payload,
+        subscriptionActive: false,
+        subscription: null,
+        error: action.payload
+      };
     default:
       return state;
   }

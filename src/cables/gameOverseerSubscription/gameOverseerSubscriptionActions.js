@@ -5,12 +5,7 @@ export const addGameOverseerSub = sub => {
   };
 };
 
-export const updateSubscribedToGame = payload => {
-  return {
-    type: "UPDATE_SUBSCRIBED_TO_GAME",
-    payload: payload
-  };
-};
+
 
 export const updateErrorForGameOverseer = boolean => {
   return {
@@ -32,3 +27,4 @@ export const updateGameLobby = payload => {
     payload: payload
   };
 };
+

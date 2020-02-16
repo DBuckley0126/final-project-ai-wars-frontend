@@ -4,7 +4,7 @@ export default function gameInstancesOverseerReducer(
     gameInstances: [],
     subscription: null,
     error: false,
-    subscriptionSucessful: null
+    subscriptionActive: null
   },
   action
 ) {
@@ -26,7 +26,7 @@ export default function gameInstancesOverseerReducer(
       return {
         ...state,
         gameInstances: state.gameInstances,
-        subscriptionSucessful: action.payload,
+        subscriptionActive: action.payload,
         error: true
       };
     case "UPDATE_SUBSCRIBED_TO_GAME_OVERSEER":
@@ -35,7 +35,7 @@ export default function gameInstancesOverseerReducer(
         gameInstances: state.gameInstances,
         subscription: action.payload,
         error: false,
-        subscriptionSucessful: true
+        subscriptionActive: true
       };
     case "UPDATE_ERROR_FOR_GAME_INSTANCES_OVERSEER":
       return {

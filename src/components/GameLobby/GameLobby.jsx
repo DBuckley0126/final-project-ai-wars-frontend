@@ -12,13 +12,15 @@ const GameLobby = () => {
     if (user) {
       return (
         <div className="lobby-user-attributes" alt="User Attributes">
-          <img
-            src={user.picture}
-            alt="User Icon"
-            className={"user-profile-picture"}
-          ></img>
-          <h4>{user.full_name}</h4>
-          <h5>{user.skill_rating}</h5>
+          {user.picture && (
+            <img
+              src={user.picture}
+              alt="User Icon"
+              className={"user-profile-picture"}
+            ></img>
+          )}
+          {user.full_name && <h4>{user.full_name}</h4>}
+          {user.skill_rating && <h5>{user.skill_rating}</h5>}
         </div>
       );
     } else {
@@ -38,10 +40,10 @@ const GameLobby = () => {
       <div className="lobby-container">
         <div className="user-lobby-container host-user-lobby-container">
           <p>Host User</p>
-          {renderUserAttributes(lobbyData.attributes.host_user)}
+          {lobbyData.attributes.host_user && renderUserAttributes(lobbyData.attributes.host_user)}
         </div>
         <div className="user-lobby-container join-user-lobby-container">
-          {renderUserAttributes(lobbyData.attributes.join_user)}
+          {lobbyData.attributes.join_user && renderUserAttributes(lobbyData.attributes.join_user)}
         </div>
       </div>
     );

@@ -51,11 +51,9 @@ function useAutoScroll() {
     };
 
     if (mouseWithinSection(areaCooridatesA)) {
-      console.log("Mouse in A")
       scrollUp = true;
       scrollDown = false;
     } else if (mouseWithinSection(areaCooridatesB)) {
-      console.log("Mouse in B")
       scrollDown = true;
       scrollUp = false;
     } else {
