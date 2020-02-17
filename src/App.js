@@ -13,13 +13,14 @@ const App = () => {
   // const auth0Loading = useSelector(state => state.auth0.isLoading);
 
   const generateAppState = () => {
-    if (startGame) {
-      return <GameContainer />;
-    } else if (startApp) {
-      return <MenuContainer />;
-    } else {
-      return <SplashScreen />;
-    }
+    // if (startGame) {
+    //   return <GameContainer />;
+    // } else if (startApp) {
+    //   return <MenuContainer />;
+    // } else {
+    //   return <SplashScreen />;
+    // }
+    return <GameContainer />;
   };
 
   return <>{generateAppState()}</>;
