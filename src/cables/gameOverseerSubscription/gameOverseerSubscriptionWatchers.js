@@ -13,6 +13,7 @@ export default function* gameOverseerCableWatchers() {
   yield takeEvery("ADD_CABLE", addCable);
   yield takeEvery("UPDATE_USER_LOBBY_STATUS", updateUserLobbyStatus);
   yield takeEvery("START_GAME_REQUEST", startGameRequest);
+  yield takeEvery("SEND_PLAYER_TURN", sendPlayerTurn);
 }
 
 let cable = null;
@@ -24,6 +25,16 @@ function* addCable(action) {
   try {
     yield (cable = action.payload.cable);
     yield (dispatch = action.payload.dispatch);
+  } catch (error) {
+    console.log(error);
+    yield put(actions.updateErrorForGameOverseer(true));
+  }
+}
+
+function* sendPlayerTurn(action) {
+  const actions = importedActions;
+  try {
+    gameOverseerSub.sendPlayerTurn(action.payload);
   } catch (error) {
     console.log(error);
     yield put(actions.updateErrorForGameOverseer(true));
@@ -80,7 +91,10 @@ function* initGameOverseerSubscription(action) {
         },
         startGameRequest: function() {
           this.perform("start_game_request");
-        }
+        },
+        sendPlayerTurn: function(payload) {
+          this.perform("init_player_turn", payload);
+        },
       }
     );
     yield put(actions.addGameOverseerSub(gameOverseerSub));

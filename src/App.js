@@ -10,8 +10,6 @@ const App = () => {
   const startApp = useSelector(state => state.app.startApp);
   const startGame = useSelector(state => state.app.startGame);
 
-  // const auth0Loading = useSelector(state => state.auth0.isLoading);
-
   const generateAppState = () => {
     // if (startGame) {
     //   return <GameContainer />;
@@ -20,7 +18,11 @@ const App = () => {
     // } else {
     //   return <SplashScreen />;
     // }
-    return <GameContainer />;
+    if (startApp) {
+      return <GameContainer />;
+    } else {
+      return <SplashScreen />;
+    }
   };
 
   return <>{generateAppState()}</>;

@@ -1,7 +1,13 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import SpawnerCreatorContainer from "../SpawnerCreatorContainer/SpawnerCreatorContainer";
 import Editor from "../../components/Editor/Editor";
-
+import {
+  initGameOverseerSubscription,
+  exitLobby,
+  startGameRequest,
+  initActionCable
+} from "./GameContainerActions";
 
 import "./GameContainer.scss";
 
@@ -9,59 +15,35 @@ const GameContainer = () => {
   console.log("Rendering Game Container");
   const dispatch = useDispatch();
 
-  const editorRef = React.createRef();
-
-  let undoManager = null;
-
-  // var EditSession = require("ace/edit_session").EditSession;
-  // var js = new EditSession("some js code");
-  // var css = new EditSession(["some", "css", "code here"]);
+  const apiToken = useSelector(state => state.auth0.apiToken);
 
   useEffect(() => {
-    undoManager = editorRef.current.editor.session.getUndoManager();
-  }, []);
+    dispatch(initActionCable({ apiToken, dispatch }));
+    dispatch(
+      initGameOverseerSubscription({
+        gameUuid: "a9bb9988-3615-9d2a-8358-625f80a21d49",
+        requestType: "JOIN_LOBBY"
+      })
+    );
 
-  const editorUndo = () => {
-    if (undoManager) {
-      undoManager.undo();
-    }
-  };
+    const endLobby = () => {
+      dispatch(exitLobby());
+    };
 
-  const editorRedo = () => {
-    if (undoManager) {
-      undoManager.redo();
-    }
-  };
-
-  const editorSession = () => {
-    console.log(editorRef.current.editor.session.getValue());
-  };
+    return endLobby;
+  }, [apiToken, dispatch]);
 
   return (
-    <div className="game-container">
-      <Editor editorR={editorRef} />
+    <>
+      <SpawnerCreatorContainer />
       <button
         onClick={() => {
-          editorUndo();
+          dispatch(startGameRequest());
         }}
       >
-        Undo
+        Start game
       </button>
-      <button
-        onClick={() => {
-          editorRedo();
-        }}
-      >
-        redo
-      </button>
-      <button
-        onClick={() => {
-          editorSession();
-        }}
-      >
-        session
-      </button>
-    </div>
+    </>
   );
 };
 
