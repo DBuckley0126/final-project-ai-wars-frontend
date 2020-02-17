@@ -12,6 +12,13 @@ export const updateErrorForGameOverseer = boolean => {
   };
 };
 
+export const updateStartGame = boolean => {
+  return {
+    type: "UPDATE_START_GAME",
+    payload: boolean
+  };
+};
+
 export const rejectGameSubscription = boolean => {
   return {
     type: "REJECT_GAME_SUBSCRIPTION",

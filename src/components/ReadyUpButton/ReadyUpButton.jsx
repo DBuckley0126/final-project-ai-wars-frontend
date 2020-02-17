@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { updateUserLobbyStatus } from "./ReadyUpButtonActions";
+import CountDownTimer from "../CountDownTimer/CountDownTimer";
 
 const ReadyUpButton = props => {
   const lobbyData = props.lobbyData;
@@ -19,7 +20,7 @@ const ReadyUpButton = props => {
             dispatch(updateUserLobbyStatus({ readyStatus: "TOGGLE" }));
           }}
         >
-          Both players ready
+          <CountDownTimer />
         </button>
       );
     } else if (

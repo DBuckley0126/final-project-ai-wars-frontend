@@ -12,6 +12,7 @@ export default function* gameOverseerCableWatchers() {
   yield takeEvery("EXIT_LOBBY", exitLobby);
   yield takeEvery("ADD_CABLE", addCable);
   yield takeEvery("UPDATE_USER_LOBBY_STATUS", updateUserLobbyStatus);
+  yield takeEvery("START_GAME_REQUEST", startGameRequest);
 }
 
 let cable = null;
@@ -33,6 +34,16 @@ function* updateUserLobbyStatus(action) {
   const actions = importedActions;
   try {
     gameOverseerSub.updateUserLobbyStatus(action.payload);
+  } catch (error) {
+    console.log(error);
+    yield put(actions.updateErrorForGameOverseer(true));
+  }
+}
+
+function* startGameRequest() {
+  const actions = importedActions;
+  try {
+    gameOverseerSub.startGameRequest();
   } catch (error) {
     console.log(error);
     yield put(actions.updateErrorForGameOverseer(true));
@@ -66,6 +77,9 @@ function* initGameOverseerSubscription(action) {
         },
         updateUserLobbyStatus: function(payload) {
           this.perform("update_user_lobby_status", payload);
+        },
+        startGameRequest: function() {
+          this.perform("start_game_request");
         }
       }
     );
@@ -89,6 +103,9 @@ function* initGameOverseerSubscription(action) {
       case "update_game_lobby":
         dispatch(actions.updateGameLobby(data.body));
         break;
+      case "start_game":
+        dispatch(actions.updateStartGame(true));
+        break;
       case "unsubscribed":
         switch (data["action"]) {
           case "SUCCESSFULLY_UNSUBSCRIBED_TO_GAME":
@@ -111,6 +128,7 @@ function* exitLobby(action) {
   const actions = importedActions;
 
   try {
+    yield put(actions.updateStartGame(false));
     yield gameOverseerSub.unsubscribe();
     yield put(actions.resetGameOverseer());
     yield (gameOverseerSub = null);

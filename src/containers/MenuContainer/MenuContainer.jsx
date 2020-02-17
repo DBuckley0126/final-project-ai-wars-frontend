@@ -6,7 +6,7 @@ import { initActionCable } from "./MenuContainerActions";
 import GameLobby from "../../components/GameLobby/GameLobby";
 import GeneralButton from "../../components/GeneralButton/GeneralButton";
 
-// import './MenuContainer.scss'
+import './MenuContainer.scss'
 
 const MenuContainer = () => {
   console.log("Rendering Menu Container");
