@@ -6,7 +6,8 @@ export default function gameOverseerReducer(
     subscriptionActive: null,
     rejected: false,
     lobbyData: {},
-    gameData: {}
+    gameData: {},
+    userTeamColour: "#a83283"
   },
   action
 ) {
@@ -19,13 +20,25 @@ export default function gameOverseerReducer(
         gameData: { ...state.gameData }
       };
     case "ADD_GAME_OVERSEER_SUB":
+      const randomColour = () => {
+        const colourOptions = ["#3432a8", "#a83283", "#3ca832", "#a83c32"];
+        return colourOptions[Math.floor(Math.random() * colourOptions.length)];
+      };
       return {
         ...state,
         lobbyData: { ...state.lobbyData },
         gameData: { ...state.gameData },
         subscription: action.payload,
+        userTeamColour: randomColour(),
         error: false
       };
+      case "UPDATE_USER_TEAM_COLOUR":
+        return {
+          ...state,
+          lobbyData: { ...state.lobbyData },
+          gameData: { ...state.gameData },
+          userTeamColour: action.payload
+        };  
     case "UPDATE_GAME_LOBBY":
       return {
         ...state,

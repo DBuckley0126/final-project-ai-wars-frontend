@@ -19,8 +19,6 @@ const Editor = props => {
     console.log("change", newValue);
   }
 
-  console.log(props.editorRef)
-
   return (
     <div id="editor">
       <AceEditor

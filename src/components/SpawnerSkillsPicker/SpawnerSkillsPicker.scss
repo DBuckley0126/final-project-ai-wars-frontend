@@ -1,0 +1,67 @@
+#spawner-skills-picker {
+    background: #bdb7b7;
+    width: 450px;
+    height: 220px;
+    position: relative;
+    top: 0%;
+    right: 0%;
+    // transform: translate(-430%, -430%);
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: baseline;
+    align-content: center;
+
+    .skill-slide-container {
+      width: 400px;
+      height: 40px;
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+      align-content: center;
+
+      p {
+        width: 250px;
+        height: 40px;
+      }
+
+      .skill-slide{
+        width: 300px;
+        height: 40px;
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        justify-content: left;
+        align-items: baseline;
+        align-content: center;
+
+        .skill-slide-option{
+          width: 20px;
+          height: 20px;
+          background: #6e6e6e;
+          margin: 5px;
+        }
+        .skill-slide-option-selected{
+          background: #ad2e2e;
+        }
+        .skill-slide-option-hovered{
+          background: #633b3b;
+        }
+
+        .skill-slide-option-available{
+          background: #96d7e2;
+        }
+
+      }
+    }
+
+    .spawner-colour-picker-option-selected {
+      border: medium;
+      border-color: blue;
+      border-style: solid;
+    }
+
+}
