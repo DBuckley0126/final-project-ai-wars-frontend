@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Editor from "../../components/Editor/Editor";
+import SpawnerNameInput from "../../components/SpawnerNameInput/SpawnerNameInput";
 import SpawnerColourPicker from "../../components/SpawnerColourPicker/SpawnerColourPicker";
 import { sendPlayerTurn } from "./SpawnerCreatorContainerActions";
 
@@ -15,6 +16,7 @@ const SpawnerCreatorContainer = () => {
 
   let currentPickedColour = null;
   let currentSkillHash = null;
+  let currentSpawnerName = "Unit";
 
   let undoManager = null;
 
@@ -33,7 +35,7 @@ const SpawnerCreatorContainer = () => {
       undoManager.redo();
     }
   };
-  // just type the ` 
+  // just type the `
 
   // any word with space either side
   // \b(?:\s*send)\b
@@ -47,7 +49,8 @@ const SpawnerCreatorContainer = () => {
       sendPlayerTurn({
         new_spawner_class: currentEditorContents,
         new_spawner_colour: currentPickedColour,
-        new_spawner_skills: currentSkillHash
+        new_spawner_skills: currentSkillHash,
+        new_spawner_name: currentSpawnerName
       })
     );
   };
@@ -60,6 +63,10 @@ const SpawnerCreatorContainer = () => {
     currentPickedColour = colourValue;
   };
 
+  const passSpawnerName = spawnerName => {
+    currentSpawnerName = spawnerName;
+  };
+
   const passSkillHash = skillHash => {
     currentSkillHash = skillHash;
   };
@@ -68,6 +75,7 @@ const SpawnerCreatorContainer = () => {
     <div className="spawner-creator-container">
       <SpawnerColourPicker passPickedColour={passPickedColour} />
       <SpawnerSkillsPicker passSkillHash={passSkillHash} />
+      <SpawnerNameInput passSpawnerName={passSpawnerName} />
       <Editor editorR={editorRef} />
       <button
         onClick={() => {
