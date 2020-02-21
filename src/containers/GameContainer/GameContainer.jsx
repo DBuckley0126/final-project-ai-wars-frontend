@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SpawnerCreatorContainer from "../SpawnerCreatorContainer/SpawnerCreatorContainer";
 import GameOutput from "../../components/GameOutput/GameOutput";
-import GameGrid from "../../components/GameGrid/GameGrid";
+import GameGridViewContainer from "../GameGridViewContainer/GameGridViewContainer";
 import Editor from "../../components/Editor/Editor";
 import {
   initGameOverseerSubscription,
@@ -38,7 +38,7 @@ const GameContainer = () => {
   return (
     <>
       <SpawnerCreatorContainer />
-      <GameGrid></GameGrid>
+      <GameGridViewContainer />
       <GameOutput />
       <button
         onClick={() => {

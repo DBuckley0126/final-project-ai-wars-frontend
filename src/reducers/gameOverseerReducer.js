@@ -7,7 +7,8 @@ export default function gameOverseerReducer(
     rejected: false,
     lobbyData: {},
     gameData: { arrayOfData: [] },
-    userTeamColour: "#a83283"
+    userTeamColour: "#a83283",
+    currentHighlightedCoordinate: { X: null, Y: null }
   },
   action
 ) {
@@ -15,9 +16,12 @@ export default function gameOverseerReducer(
     case "ADD_CABLE":
       return {
         ...state,
-        cable: action.payload,
-        lobbyData: { ...state.lobbyData },
-        gameData: { ...state.gameData }
+        cable: action.payload
+      };
+    case "UPDATE_CURRENT_HIGHLIGHTED_COORDINATE":
+      return {
+        ...state,
+        currentHighlightedCoordinate: action.payload
       };
     case "ADD_GAME_OVERSEER_SUB":
       const randomColour = () => {
@@ -26,8 +30,6 @@ export default function gameOverseerReducer(
       };
       return {
         ...state,
-        lobbyData: { ...state.lobbyData },
-        gameData: { ...state.gameData },
         subscription: action.payload,
         userTeamColour: randomColour(),
         error: false
@@ -35,28 +37,22 @@ export default function gameOverseerReducer(
     case "UPDATE_USER_TEAM_COLOUR":
       return {
         ...state,
-        lobbyData: { ...state.lobbyData },
-        gameData: { ...state.gameData },
         userTeamColour: action.payload
       };
     case "UPDATE_GAME_LOBBY":
       return {
         ...state,
         subscriptionActive: true,
-        lobbyData: action.payload.data,
-        gameData: { ...state.gameData }
+        lobbyData: action.payload.data
       };
     case "UPDATE_ERROR_FOR_GAME_OVERSEER":
       return {
         ...state,
-        lobbyData: { ...state.lobbyData },
-        gameData: { ...state.gameData },
         error: action.payload
       };
     case "REJECT_GAME_SUBSCRIPTION":
       return {
         ...state,
-        gameData: { ...state.gameData },
         rejected: action.payload,
         subscriptionActive: false,
         subscription: null,

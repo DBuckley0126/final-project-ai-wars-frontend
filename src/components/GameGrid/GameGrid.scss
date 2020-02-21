@@ -1,0 +1,33 @@
+#game-grid {
+  background: #b15bb1;
+  // width: 1000px;
+  // height: 1000px;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  flex-basis: auto;
+  align-items: center;
+  align-content: center;
+  padding: 0.15vh;
+  .grid-row {
+    background: #b15bb1;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-basis: auto;
+    align-items: center;
+    .grid-element {
+      background: #5b72b1;
+      width: 1.5vh;
+      height: 1.5vh;
+      margin: 0.15vh;
+    }
+  }
+
+}
