@@ -1,3 +1,7 @@
+# final-project-ai-wars-frontend
+A Flatiron React Project — AI Wars is a educational multiplayer strategy game where players battle using an
+integrated IDE to code AI units to take out the opposing players AI army.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
