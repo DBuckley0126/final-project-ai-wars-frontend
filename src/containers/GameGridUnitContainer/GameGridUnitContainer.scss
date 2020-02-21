@@ -1,9 +1,20 @@
 #game-grid-unit-container {
-  // width: 1000px;
-  // height: 1000px;
+  width: 90vh;
+  height: 90vh;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 0.15vh;
+
+  .game-unit {
+    background-color:#a81c1c;
+    position: relative;
+    width: 1.5vh;
+    height: 1.5vh;
+    padding: 0.1;
+  }
+
 }
+
+
+

@@ -120,6 +120,16 @@ function* initGameOverseerSubscription(action) {
       case "start_game":
         dispatch(actions.updateStartGame(true));
         break;
+      case "update_game":
+        switch (data["action"]) {
+          case "UPDATE_GAME_OF_TURN":
+            dispatch(actions.update_game_of_turn(data.body));
+            break;
+          default:
+            console.log("WARNING: Unable to process data received from socket");
+            console.log(data);
+        }
+        break;
       case "unsubscribed":
         switch (data["action"]) {
           case "CANCEL_LOBBY":

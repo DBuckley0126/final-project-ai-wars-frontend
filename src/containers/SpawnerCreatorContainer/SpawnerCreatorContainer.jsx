@@ -35,13 +35,6 @@ const SpawnerCreatorContainer = () => {
       undoManager.redo();
     }
   };
-  // just type the `
-
-  // any word with space either side
-  // \b(?:\s*send)\b
-
-  // and word with .word space either side or between the . and the word
-  // \b(?:\s*\.\s*send)\b
 
   const sendEditorContents = () => {
     const currentEditorContents = editorRef.current.editor.session.getValue();

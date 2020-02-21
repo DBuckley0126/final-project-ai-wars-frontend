@@ -6,7 +6,7 @@ export default function gameOverseerReducer(
     subscriptionActive: null,
     rejected: false,
     lobbyData: {},
-    gameData: { arrayOfData: [] },
+    gameData: { game: [], spawners: [], units: [] },
     userTeamColour: "#a83283",
     currentHighlightedCoordinate: { X: null, Y: null }
   },
@@ -61,7 +61,7 @@ export default function gameOverseerReducer(
     case "RESET_GAME_OVERSEER":
       return {
         ...state,
-        gameData: { arrayOfData: [] },
+        gameData: { game: [], spawners: [], units: [] },
         rejected: false,
         subscriptionActive: false,
         lobbyData: {},
@@ -69,10 +69,14 @@ export default function gameOverseerReducer(
         error: false
       };
     case "UPDATE_GAME_OF_TURN":
+      console.log("UPDATE TURN");
+      console.log(action.payload);
       return {
         ...state,
         gameData: {
-          array_of_data: state.gameData.arrayOfData.push(action.payload)
+          game: action.payload.game.data,
+          spawners: action.payload.spawners.data,
+          units: action.payload.units.data
         }
       };
 
