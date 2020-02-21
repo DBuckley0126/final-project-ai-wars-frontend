@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SpawnerCreatorContainer from "../SpawnerCreatorContainer/SpawnerCreatorContainer";
+import GameOutput from "../../components/GameOutput/GameOutput";
+import GameGrid from "../../components/GameGrid/GameGrid";
 import Editor from "../../components/Editor/Editor";
 import {
   initGameOverseerSubscription,
@@ -17,6 +19,10 @@ const GameContainer = () => {
 
   const apiToken = useSelector(state => state.auth0.apiToken);
 
+  const endLobby = () => {
+    dispatch(exitLobby());
+  };
+
   useEffect(() => {
     dispatch(initActionCable({ apiToken, dispatch }));
     dispatch(
@@ -26,16 +32,21 @@ const GameContainer = () => {
       })
     );
 
-    const endLobby = () => {
-      dispatch(exitLobby());
-    };
-
     return endLobby;
   }, [apiToken, dispatch]);
 
   return (
     <>
       <SpawnerCreatorContainer />
+      <GameGrid></GameGrid>
+      <GameOutput />
+      <button
+        onClick={() => {
+          dispatch(exitLobby());
+        }}
+      >
+        End Game
+      </button>
       <button
         onClick={() => {
           dispatch(startGameRequest());

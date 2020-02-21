@@ -44,3 +44,10 @@ export const exitLobby = () => {
     type: "EXIT_LOBBY"
   };
 };
+
+export const update_game_of_turn = payload => {
+  return {
+    type: "UPDATE_GAME_OF_TURN",
+    payload: payload
+  };
+};

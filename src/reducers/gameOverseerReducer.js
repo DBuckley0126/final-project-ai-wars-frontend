@@ -6,7 +6,7 @@ export default function gameOverseerReducer(
     subscriptionActive: null,
     rejected: false,
     lobbyData: {},
-    gameData: {},
+    gameData: { arrayOfData: [] },
     userTeamColour: "#a83283"
   },
   action
@@ -32,13 +32,13 @@ export default function gameOverseerReducer(
         userTeamColour: randomColour(),
         error: false
       };
-      case "UPDATE_USER_TEAM_COLOUR":
-        return {
-          ...state,
-          lobbyData: { ...state.lobbyData },
-          gameData: { ...state.gameData },
-          userTeamColour: action.payload
-        };  
+    case "UPDATE_USER_TEAM_COLOUR":
+      return {
+        ...state,
+        lobbyData: { ...state.lobbyData },
+        gameData: { ...state.gameData },
+        userTeamColour: action.payload
+      };
     case "UPDATE_GAME_LOBBY":
       return {
         ...state,
@@ -65,12 +65,21 @@ export default function gameOverseerReducer(
     case "RESET_GAME_OVERSEER":
       return {
         ...state,
-        gameData: false,
+        gameData: { arrayOfData: [] },
         rejected: false,
         subscriptionActive: false,
+        lobbyData: {},
         subscription: null,
         error: false
       };
+    case "UPDATE_GAME_OF_TURN":
+      return {
+        ...state,
+        gameData: {
+          array_of_data: state.gameData.arrayOfData.push(action.payload)
+        }
+      };
+
     default:
       return state;
   }

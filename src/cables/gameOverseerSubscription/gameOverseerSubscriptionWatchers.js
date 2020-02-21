@@ -94,7 +94,7 @@ function* initGameOverseerSubscription(action) {
         },
         sendPlayerTurn: function(payload) {
           this.perform("init_player_turn", payload);
-        },
+        }
       }
     );
     yield put(actions.addGameOverseerSub(gameOverseerSub));
@@ -122,15 +122,14 @@ function* initGameOverseerSubscription(action) {
         break;
       case "unsubscribed":
         switch (data["action"]) {
-          case "SUCCESSFULLY_UNSUBSCRIBED_TO_GAME":
-            dispatch(actions.successfullyUnsubscribedToGame());
-            break;
           case "CANCEL_LOBBY":
             dispatch(actions.exitLobby());
+            break;
           default:
             console.log("WARNING: Unable to process data received from socket");
             console.log(data);
         }
+
       default:
         console.log("WARNING: Unable to process data received from socket");
         console.log(data);

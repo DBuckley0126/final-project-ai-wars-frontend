@@ -12,7 +12,6 @@ import {
 } from "react-router-dom";
 
 const InstructionsContainer = () => {
-
   return (
     <>
       <h1>How to play AI Wars</h1>
