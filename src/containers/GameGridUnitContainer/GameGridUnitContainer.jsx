@@ -67,19 +67,21 @@ const GameUnit = props => {
       const initialPadding = vhValue * 1;
       const unitWidthWithPadding = unitWidth + unitPadding;
 
-      motionPathX.push(initialPadding + (movement.X * unitWidthWithPadding) - unitWidthWithPadding);
-      motionPathY.push(initialPadding + (movement.Y * unitWidthWithPadding) - unitWidthWithPadding);
+      motionPathX.push(
+        initialPadding +
+          movement.X * unitWidthWithPadding -
+          unitWidthWithPadding
+      );
+      motionPathY.push(
+        initialPadding +
+          movement.Y * unitWidthWithPadding -
+          unitWidthWithPadding
+      );
     });
   } else {
     motionPathX.push(unitData.attributes.coordinate_X * 10);
     motionPathY.push(unitData.attributes.coordinate_Y * 10);
   }
 
-  return (
-    <motion.div
-      className="game-unit"
-      animate={{ x: motionPathX, y: motionPathY }}
-      key={unitData.id}
-    ></motion.div>
-  );
+  return <div className="game-unit" key={unitData.id}></div>;
 };

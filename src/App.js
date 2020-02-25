@@ -22,19 +22,19 @@ const App = () => {
   // const history = useHistory();
 
   const generateAppState = () => {
-    if (startGame) {
-      return <GameContainer />;
-    } else if (startApp) {
-      return <MenuContainer />;
-    } else {
-      return <SplashScreen />;
-    }
-
-    // if (startApp) {
+    // if (startGame) {
     //   return <GameContainer />;
+    // } else if (startApp) {
+    //   return <MenuContainer />;
     // } else {
     //   return <SplashScreen />;
     // }
+
+    if (startApp) {
+      return <GameContainer />;
+    } else {
+      return <SplashScreen />;
+    }
   };
 
   return (

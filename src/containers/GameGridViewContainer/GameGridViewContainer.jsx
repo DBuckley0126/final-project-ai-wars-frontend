@@ -8,7 +8,7 @@ const GameGridViewContainer = () => {
   return (
     <div id="game-grid-view-container">
       <GameGrid></GameGrid>
-      <GameGridUnitContainer />
+      {/* <GameGridUnitContainer /> */}
       <CoordinateView />
     </div>
   );

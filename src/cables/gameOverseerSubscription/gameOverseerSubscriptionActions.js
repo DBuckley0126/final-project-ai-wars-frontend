@@ -45,9 +45,23 @@ export const exitLobby = () => {
   };
 };
 
-export const update_game_of_turn = payload => {
+export const updateGameOfTurn = payload => {
   return {
     type: "UPDATE_GAME_OF_TURN",
     payload: payload
   };
 };
+
+export const initTurnHandler = payload => {
+  return {
+    type: "INIT_TURN_HANDLER",
+    payload: payload
+  };
+};
+
+export const updateMapState = payload => {
+  return {
+    type: "UPDATE_MAP_STATE",
+    payload: payload
+  };
+}

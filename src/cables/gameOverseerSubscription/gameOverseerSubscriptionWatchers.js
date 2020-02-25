@@ -1,5 +1,4 @@
-import { delay } from "redux-saga";
-import { put, call, takeEvery, takeLatest } from "redux-saga/effects";
+import { put, call, takeEvery, takeLatest, delay } from "redux-saga/effects";
 
 import * as importedActions from "./gameOverseerSubscriptionActions";
 const uuidv4 = require("uuid/v4");
@@ -14,6 +13,7 @@ export default function* gameOverseerCableWatchers() {
   yield takeEvery("UPDATE_USER_LOBBY_STATUS", updateUserLobbyStatus);
   yield takeEvery("START_GAME_REQUEST", startGameRequest);
   yield takeEvery("SEND_PLAYER_TURN", sendPlayerTurn);
+  yield takeEvery("INIT_TURN_HANDLER", turnHandler);
 }
 
 let cable = null;
@@ -123,7 +123,7 @@ function* initGameOverseerSubscription(action) {
       case "update_game":
         switch (data["action"]) {
           case "UPDATE_GAME_OF_TURN":
-            dispatch(actions.update_game_of_turn(data.body));
+            dispatch(actions.initTurnHandler(data.body));
             break;
           default:
             console.log("WARNING: Unable to process data received from socket");
@@ -158,5 +158,23 @@ function* exitLobby(action) {
   } catch (error) {
     console.log(error);
     yield put(actions.updateErrorForGameOverseer(true));
+  }
+}
+
+function* turnHandler(action) {
+  const actions = importedActions;
+
+  const map_states = action.payload.turn.data.attributes.map_states_for_turn;
+
+  yield put(actions.updateGameOfTurn(action.payload));
+
+  for (const stepNumber in map_states) {
+    yield put(
+      actions.updateMapState({
+        stepNumber: stepNumber,
+        mapState: map_states[stepNumber]
+      })
+    );
+    yield delay(1000);
   }
 }
