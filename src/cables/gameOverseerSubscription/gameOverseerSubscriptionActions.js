@@ -40,6 +40,20 @@ export const updateTurnSent = payload => {
   };
 };
 
+export const updateAnimationActive = payload => {
+  return {
+    type: "UPDATE_ANIMATION_ACTIVE",
+    payload: payload
+  };
+};
+
+export const updateTurnCount = payload => {
+  return {
+    type: "UPDATE_TURN_COUNT",
+    payload: payload
+  };
+};
+
 export const resetGameOverseer = () => {
   return {
     type: "RESET_GAME_OVERSEER"

@@ -10,7 +10,9 @@ export default function gameOverseerReducer(
     currentHighlightedCoordinate: { X: null, Y: null },
     mapState: initialGameState,
     turnSent: false,
-    stepNumber: 0
+    stepNumber: 0,
+    turnCount: 0,
+    animationActive: false
   },
   action
 ) {
@@ -19,6 +21,16 @@ export default function gameOverseerReducer(
       return {
         ...state,
         cable: action.payload
+      };
+    case "UPDATE_TURN_COUNT":
+      return {
+        ...state,
+        turnCount: action.payload
+      };
+    case "UPDATE_ANIMATION_ACTIVE":
+      return {
+        ...state,
+        animationActive: action.payload
       };
     case "UPDATE_CURRENT_HIGHLIGHTED_COORDINATE":
       return {

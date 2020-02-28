@@ -164,7 +164,8 @@ function* exitLobby(action) {
 
 function* turnHandler(action) {
   const actions = importedActions;
-
+  yield put(actions.updateAnimationActive(true));
+  yield put(actions.updateGameOfTurn(action.payload));
   const map_states = action.payload.turn.data.attributes.map_states_for_turn;
 
   for (const stepNumber in map_states) {
@@ -176,7 +177,9 @@ function* turnHandler(action) {
     );
     yield delay(1000);
   }
-
+  yield put(actions.updateAnimationActive(false));
+  yield put(
+    actions.updateTurnCount(action.payload.game.data.attributes.turn_count)
+  );
   yield put(actions.updateTurnSent(false));
-  yield put(actions.updateGameOfTurn(action.payload));
 }
