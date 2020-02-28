@@ -93,6 +93,7 @@ function* initGameOverseerSubscription(action) {
           this.perform("start_game_request");
         },
         sendPlayerTurn: function(payload) {
+          dispatch(actions.updateTurnSent(true));
           this.perform("init_player_turn", payload);
         }
       }
@@ -166,8 +167,6 @@ function* turnHandler(action) {
 
   const map_states = action.payload.turn.data.attributes.map_states_for_turn;
 
-  yield put(actions.updateGameOfTurn(action.payload));
-
   for (const stepNumber in map_states) {
     yield put(
       actions.updateMapState({
@@ -177,4 +176,7 @@ function* turnHandler(action) {
     );
     yield delay(1000);
   }
+
+  yield put(actions.updateTurnSent(false));
+  yield put(actions.updateGameOfTurn(action.payload));
 }

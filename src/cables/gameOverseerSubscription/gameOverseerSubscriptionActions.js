@@ -33,6 +33,13 @@ export const updateGameLobby = payload => {
   };
 };
 
+export const updateTurnSent = payload => {
+  return {
+    type: "UPDATE_TURN_SENT",
+    payload: payload
+  };
+};
+
 export const resetGameOverseer = () => {
   return {
     type: "RESET_GAME_OVERSEER"

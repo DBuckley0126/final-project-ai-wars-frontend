@@ -15,6 +15,7 @@ const GameGrid = () => {
         key={coordinatesSet.xy}
         coordinates={coordinatesSet.xy}
         contents={coordinatesSet.c}
+        effect={coordinatesSet.e}
       />
     ));
   };

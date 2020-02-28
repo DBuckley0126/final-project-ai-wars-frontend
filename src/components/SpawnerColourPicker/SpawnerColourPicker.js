@@ -1,17 +1,27 @@
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
 
+import useLocalUserType from "../../hooks/useLocalUserType/useLocalUserType";
 import "./SpawnerColourPicker.scss";
 
 const SpawnerColourPicker = props => {
-  const initialTeamColour = useSelector(
-    state => state.gameOverseer.userTeamColour
-  );
+  const lobbyData = useSelector(state => state.gameOverseer.lobbyData);
+  const local_user_type = useLocalUserType();
 
-  const [spawnerColour, setSpawnerColour] = useState(initialTeamColour);
+  let lobbyColour = null;
+  let disabledSpawnerValue = null;
+
+  if (local_user_type === "host_user") {
+    lobbyColour = lobbyData.attributes.host_user_colour;
+    disabledSpawnerValue = lobbyData.attributes.join_user_colour;
+  } else if (local_user_type === "join_user") {
+    lobbyColour = lobbyData.attributes.join_user_colour;
+    disabledSpawnerValue = lobbyData.attributes.host_user_colour;
+  }
+
+  const [spawnerColour, setSpawnerColour] = useState(lobbyColour);
   props.passPickedColour(spawnerColour);
 
-  console.log("Render colour picker");
   const generateColourOptions = () => {
     const colourArray = ["#3432a8", "#a83283", "#3ca832", "#a83c32"];
     return colourArray.map(colourValue => (
@@ -20,6 +30,7 @@ const SpawnerColourPicker = props => {
         colourValue={colourValue}
         selectedSpawnerValue={spawnerColour}
         setSpawnerColour={setSpawnerColour}
+        disabledSpawnerValue={disabledSpawnerValue}
       />
     ));
   };
@@ -32,6 +43,7 @@ const SpawnerColourPickerOption = props => {
   const colourValue = props.colourValue;
   const selectedSpawnerValue = props.selectedSpawnerValue;
   const setSpawnerColour = props.setSpawnerColour;
+  const disabledSpawnerValue = props.disabledSpawnerValue;
 
   const pickerStyle = {
     background: colourValue
@@ -44,6 +56,8 @@ const SpawnerColourPickerOption = props => {
   const selectedClassName = () => {
     if (selectedSpawnerValue === colourValue) {
       return "spawner-colour-picker-option spawner-colour-picker-option-selected";
+    } else if (disabledSpawnerValue === colourValue) {
+      return "spawner-colour-picker-option spawner-colour-picker-option-disabled";
     } else {
       return "spawner-colour-picker-option";
     }
@@ -52,6 +66,7 @@ const SpawnerColourPickerOption = props => {
   return (
     <button
       style={pickerStyle}
+      disabled={disabledSpawnerValue === colourValue}
       className={selectedClassName()}
       onClick={() => colourHandler()}
     ></button>

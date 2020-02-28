@@ -7,6 +7,8 @@ import { sendPlayerTurn } from "./SpawnerCreatorContainerActions";
 
 import "./SpawnerCreatorContainer.scss";
 import SpawnerSkillsPicker from "../../components/SpawnerSkillsPicker/SpawnerSkillsPicker";
+import useCurrentTurn from "../../hooks/useCurrentTurn/useCurrentTurn";
+import useLocalUserType from "../../hooks/useLocalUserType/useLocalUserType";
 
 const SpawnerCreatorContainer = () => {
   console.log("Rendering Spawner Creator Container");
@@ -91,15 +93,51 @@ const SpawnerCreatorContainer = () => {
       >
         Current Colour
       </button>
-      <button
-        onClick={() => {
-          sendEditorContents();
-        }}
-      >
-        Send editor contents
-      </button>
+      <SubmitButton sendEditorContents={sendEditorContents} />
     </div>
   );
 };
 
 export default SpawnerCreatorContainer;
+
+const SubmitButton = props => {
+  const currentTurn = useCurrentTurn();
+  const localUser = useLocalUserType();
+  const turnSent = useSelector(state => state.gameOverseer.turnSent);
+
+  const sendEditorContents = props.sendEditorContents;
+
+  if (turnSent) {
+    return (
+      <button
+        className="spawner-submit-button spawner-submit-button-sent"
+        disabled={true}
+        onClick={() => {
+          sendEditorContents();
+        }}
+      >
+        Spawner Sent
+      </button>
+    );
+  } else if (currentTurn === localUser) {
+    return (
+      <button
+        className="spawner-submit-button"
+        onClick={() => {
+          sendEditorContents();
+        }}
+      >
+        Submit Spawner
+      </button>
+    );
+  } else {
+    return (
+      <button
+        className="spawner-submit-button spawner-submit-button-disabled"
+        disabled={true}
+      >
+        Waiting for Opponent
+      </button>
+    );
+  }
+};

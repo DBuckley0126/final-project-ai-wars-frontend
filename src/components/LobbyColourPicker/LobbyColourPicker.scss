@@ -1,10 +1,10 @@
-#spawner-colour-picker {
+#lobby-colour-picker {
     background: #bdb7b7;
     width: 250px;
-    height: 100px;
-    position: relative;
-    top: 0%;
-    right: 0%;
+    height: 50px;
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
     // transform: translate(-430%, -430%);
     display: flex;
     flex-wrap: nowrap;
@@ -13,20 +13,30 @@
     align-items: baseline;
     align-content: center;
 
-    .spawner-colour-picker-option {
+    .lobby-colour-picker-option {
       width: 30px;
       height: 30px;
       margin: 10px;
     }
 
-    .spawner-colour-picker-option-selected {
+    .lobby-colour-picker-option-selected {
       border: medium;
       border-color: blue;
       border-style: solid;
     }
 
-    .spawner-colour-picker-option-disabled {
+    .lobby-colour-picker-option-disabled {
       opacity: 0.3;
     }
 
+}
+
+#lobby-colour-picker-hover-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  background: #bdb7b7;
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
 }
