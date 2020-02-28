@@ -12,9 +12,9 @@ const GameGrid = () => {
   const generateGrid = () => {
     return mapState.map(coordinatesSet => (
       <GridElement
-        key={coordinatesSet.c}
-        coordinates={coordinatesSet.c}
-        unitUuid={coordinatesSet.u}
+        key={coordinatesSet.xy}
+        coordinates={coordinatesSet.xy}
+        contents={coordinatesSet.c}
       />
     ));
   };
