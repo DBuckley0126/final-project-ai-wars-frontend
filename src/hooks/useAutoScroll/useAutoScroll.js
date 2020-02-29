@@ -2,17 +2,15 @@ import { useRef, useState, useEffect } from "react";
 import useMousePosition from "./../useMousePosition/useMousePosition";
 
 function useAutoScroll() {
-
   const ref = useRef(null);
 
   let scrollUp = false;
   let scrollDown = false;
 
   const onMouseMove = event => {
-
     let mouseRelativeXY = {
-      x: event.pageX - (ref.current.offsetLeft - (ref.current.offsetWidth / 2)),
-      y: event.pageY - (ref.current.offsetTop - (ref.current.offsetHeight / 2))
+      x: event.pageX - (ref.current.offsetLeft - ref.current.offsetWidth / 2),
+      y: event.pageY - (ref.current.offsetTop - ref.current.offsetHeight / 2)
     };
 
     let refDimensions = {
@@ -63,8 +61,10 @@ function useAutoScroll() {
   };
 
   const checkDirection = () => {
-    if (scrollUp) ref.current.scrollTop = ref.current.scrollTop - 1;
-    if (scrollDown) ref.current.scrollTop = ref.current.scrollTop + 2;
+    if (ref) {
+      if (scrollUp) ref.current.scrollTop = ref.current.scrollTop - 1;
+      if (scrollDown) ref.current.scrollTop = ref.current.scrollTop + 2;
+    }
 
     setTimeout(checkDirection, 4);
   };

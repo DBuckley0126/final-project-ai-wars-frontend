@@ -168,6 +168,7 @@ function* turnHandler(action) {
   yield put(actions.updateAnimationActive(true));
   yield put(actions.updateGameOfTurn(action.payload));
   const map_states = action.payload.turn.data.attributes.map_states_for_turn;
+  const winning_turn = action.payload.turn.data.attributes.winning_turn;
 
   for (const stepNumber in map_states) {
     yield put(
@@ -176,11 +177,14 @@ function* turnHandler(action) {
         mapState: map_states[stepNumber]
       })
     );
-    yield delay(1000);
+    yield delay(500);
   }
   yield put(actions.updateAnimationActive(false));
   yield put(
     actions.updateTurnCount(action.payload.game.data.attributes.turn_count)
   );
   yield put(actions.updateTurnSent(false));
+  if (winning_turn) {
+    yield put(actions.updateGameComplete(true));
+  }
 }

@@ -12,7 +12,9 @@ export default function gameOverseerReducer(
     turnSent: false,
     stepNumber: 0,
     turnCount: 0,
-    animationActive: false
+    animationActive: false,
+    demoCoordinateHash: {},
+    gameComplete: false
   },
   action
 ) {
@@ -36,6 +38,21 @@ export default function gameOverseerReducer(
       return {
         ...state,
         turnCount: action.payload
+      };
+    case "UPDATE_GAME_COMPLETE":
+      return {
+        ...state,
+        gameComplete: action.payload
+      };
+    case "ADD_COORDINATE":
+      state.demoCoordinateHash[action.payload] = "selected";
+      return {
+        ...state
+      };
+    case "REMOVE_COORDINATE":
+      delete state.demoCoordinateHash[action.payload];
+      return {
+        ...state
       };
     case "UPDATE_ANIMATION_ACTIVE":
       return {
@@ -88,7 +105,11 @@ export default function gameOverseerReducer(
         error: false,
         currentHighlightedCoordinate: { X: null, Y: null },
         mapState: initialGameState,
-        stepNumber: 0
+        stepNumber: 0,
+        turnCount: 0,
+        animationActive: false,
+        demoCoordinateHash: {},
+        gameComplete: false
       };
     case "UPDATE_GAME_OF_TURN":
       return {

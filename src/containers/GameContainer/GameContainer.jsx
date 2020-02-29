@@ -4,6 +4,7 @@ import SpawnerCreatorContainer from "../SpawnerCreatorContainer/SpawnerCreatorCo
 import GameGridViewContainer from "../GameGridViewContainer/GameGridViewContainer";
 import SpawnerOverview from "../../components/SpawnerOverview/SpawnerOverview";
 import TurnView from "../../components/TurnView/TurnView";
+import EndDisplay from "../../components/EndDisplay/EndDisplay"
 
 import {
   initGameOverseerSubscription,
@@ -17,6 +18,8 @@ import "./GameContainer.scss";
 const GameContainer = () => {
   console.log("Rendering Game Container");
   const dispatch = useDispatch();
+
+  const gameComplete = useSelector(state => state.gameOverseer.gameComplete);
 
   // const apiToken = useSelector(state => state.auth0.apiToken);
 
@@ -38,6 +41,7 @@ const GameContainer = () => {
 
   return (
     <>
+      {gameComplete && <EndDisplay />}
       <SpawnerCreatorContainer />
       <GameGridViewContainer />
       <SpawnerOverview />

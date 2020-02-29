@@ -47,6 +47,13 @@ export const initGame = payload => {
   };
 };
 
+export const updateGameComplete = payload => {
+  return {
+    type: "UPDATE_GAME_COMPLETE",
+    payload: payload
+  };
+};
+
 export const updateAnimationActive = payload => {
   return {
     type: "UPDATE_ANIMATION_ACTIVE",
