@@ -40,6 +40,13 @@ export const updateTurnSent = payload => {
   };
 };
 
+export const initGame = payload => {
+  return {
+    type: "INIT_GAME",
+    payload: payload
+  };
+};
+
 export const updateAnimationActive = payload => {
   return {
     type: "UPDATE_ANIMATION_ACTIVE",

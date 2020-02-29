@@ -22,6 +22,16 @@ export default function gameOverseerReducer(
         ...state,
         cable: action.payload
       };
+    case "INIT_GAME":
+      return {
+        ...state,
+        gameData: {
+          game: action.payload.game.data,
+          spawners: action.payload.spawners.data,
+          units: action.payload.units.data
+        },
+        mapState: action.payload.game.data.attributes.map_state
+      };
     case "UPDATE_TURN_COUNT":
       return {
         ...state,
@@ -81,8 +91,6 @@ export default function gameOverseerReducer(
         stepNumber: 0
       };
     case "UPDATE_GAME_OF_TURN":
-      console.log("UPDATE TURN");
-      console.log(action.payload);
       return {
         ...state,
         gameData: {
@@ -92,15 +100,12 @@ export default function gameOverseerReducer(
           turn: action.payload.turn.data
         }
       };
-
     case "UPDATE_MAP_STATE":
-      console.log("UPDATE MAP STATE!!!!!!!!!");
       return {
         ...state,
         mapState: action.payload.mapState,
         stepNumber: action.payload.stepNumber
       };
-
     default:
       return state;
   }
