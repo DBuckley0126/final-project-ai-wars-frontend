@@ -23,7 +23,7 @@ function* initActionCable(action) {
       );
     } else {
       cable = yield ActionCable.createConsumer(
-        `wss://javascript-project-gyro-back.herokuapp.com/cable`,
+        `wss://final-project-ai-wars-backend.herokuapp.com/cable`,
         apiToken
       );
     }
