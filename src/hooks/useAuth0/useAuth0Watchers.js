@@ -24,10 +24,19 @@ function* syncUser(action) {
   };
 
   try {
-    let res = yield fetch(
-      "https://final-project-ai-wars-backend.herokuapp.com/user/create",
-      configurationObject
-    );
+    let res = null;
+    if (window.location.hostname === "localhost") {
+      res = yield fetch(
+        "http://localhost:3000/user/create",
+        configurationObject
+      );
+    } else {
+      res = yield fetch(
+        "https://final-project-ai-wars-backend.herokuapp.com/user/create",
+        configurationObject
+      );
+    }
+
     yield checkRes(res);
     let data = yield res.json();
     yield put(
