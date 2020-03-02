@@ -25,7 +25,7 @@ function* syncUser(action) {
 
   try {
     let res = yield fetch(
-      "http://localhost:3000/user/create",
+      "https://final-project-ai-wars-backend.herokuapp.com/user/create",
       configurationObject
     );
     yield checkRes(res);
