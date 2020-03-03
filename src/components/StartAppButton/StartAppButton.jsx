@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { startApp } from "./startAppButtonActions";
 
+import "./StartAppButton.scss";
+
 const StartAppButton = () => {
   const dispatch = useDispatch();
   const userSynced = useSelector(state => state.auth0.synced);
@@ -14,7 +16,11 @@ const StartAppButton = () => {
     return null;
   }
 
-  return <button onClick={event => handleClick(event)}>Enter</button>;
+  return (
+    <button id="start-app-button" onClick={event => handleClick(event)}>
+      Enter
+    </button>
+  );
 };
 
 export default StartAppButton;
