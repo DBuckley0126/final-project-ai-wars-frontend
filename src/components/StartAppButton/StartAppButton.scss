@@ -1,11 +1,47 @@
-#start-app-button {
-  width: 200px;
-  height: 200px;
-  background-color: #204cac;
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap');
 
+// @include font-face(ColdWar, "../../fonts/Cold_Warm.otf")
+
+#start-app-box {
+  width: 300px;
+  height: 500px;
+  background-color: #77797e;
   position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+  align-content: center;
+
+  #start-app-box-user-picture {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    margin-top: 50px;
+  }
+
+  #start-app-box-user-name{
+    width: 200px;
+    height: 200px;
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 20px;
+  }
+
+  #start-app-button {
+    width: 200px;
+    height: 200px;
+    background-color: #204cac00;
+    margin: auto;
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 50px;
+    font-weight: 500;
+  
+  }
 }

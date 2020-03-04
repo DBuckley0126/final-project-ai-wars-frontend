@@ -22,9 +22,9 @@ const SplashScreen = () => {
     <div id="splash-screen">
       <Header />
       <StartAppButton />
-      <nav>
+      {/* <nav>
         <Link to={"/how-to-use"}>How to use</Link>
-      </nav>
+      </nav> */}
     </div>
   );
 };

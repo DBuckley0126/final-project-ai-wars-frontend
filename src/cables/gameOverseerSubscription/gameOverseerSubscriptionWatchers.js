@@ -177,7 +177,7 @@ function* turnHandler(action) {
         mapState: map_states[stepNumber]
       })
     );
-    yield delay(500);
+    yield delay(300);
   }
   yield put(actions.updateAnimationActive(false));
   yield put(
