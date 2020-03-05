@@ -4,6 +4,7 @@ import MenuContainer from "./containers/MenuContainer/MenuContainer";
 import { useSelector, useDispatch } from "react-redux";
 import SplashScreen from "./components/SplashScreen/SplashScreen";
 import Instructions from "./containers/InstructionsContainer/InstructionsContainer";
+import { Frame, AnimatePresence } from "framer";
 
 import GameContainer from "./containers/GameContainer/GameContainer";
 import {
@@ -19,29 +20,26 @@ import {
 const App = () => {
   const startApp = useSelector(state => state.app.startApp);
   const startGame = useSelector(state => state.app.startGame);
+
   // const history = useHistory();
 
-  const generateAppState = () => {
-    if (startGame) {
-      return <GameContainer />;
-    } else if (startApp) {
-      return <MenuContainer />;
-    } else {
-      return <SplashScreen />;
-    }
-
-    // if (startApp) {
-    //   return <GameContainer />;
-    // } else {
-    //   return <SplashScreen />;
-    // }
-  };
+  // if (startApp) {
+  //   return <GameContainer />;
+  // } else {
+  //   return <SplashScreen />;
+  //{startApp && <MenuContainer />}
+  //{startGame && <GameContainer />}
+  // }
 
   return (
     <>
       <Switch>
         <Route exact path={"/"}>
-          {generateAppState()}
+          <AnimatePresence initial={false}>
+            {!startApp && <SplashScreen />}
+            {startApp && <MenuContainer />}
+            {startGame && <GameContainer />}
+          </AnimatePresence>
         </Route>
         <Route path="/how-to-use">
           <Instructions />

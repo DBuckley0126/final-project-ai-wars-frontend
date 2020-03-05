@@ -14,6 +14,7 @@
     "action-cable-react-jwt": "0.0.5",
     "actioncable": "5.2.4-1",
     "deep-diff": "1.0.2",
+    "framer": "1.1.7",
     "framer-motion": "1.8.4",
     "husky": "4.2.1",
     "lint-staged": "10.0.7",

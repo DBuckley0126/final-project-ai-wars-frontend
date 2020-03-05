@@ -1,9 +1,18 @@
 #splash-screen {
-  background-color: rgb(247, 247, 247);
-  width: 100vw;
-  height: 100vh;
 
-  position: fixed;
-  top: 0;
-  left: 0; 
+  h1 {
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 150px;
+    font-weight: 500;
+    color: rgb(232, 232, 232);
+    position: relative;
+    width: 100vw;
+    height: 20vh;
+    text-align: center;
+  }
+  #splash-screen-title-inner-shadow{
+    -webkit-background-clip: text;
+-moz-background-clip: text;
+     background-clip: text;
+  }
 }
