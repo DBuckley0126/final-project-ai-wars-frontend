@@ -37,7 +37,7 @@ const App = () => {
         <Route exact path={"/"}>
           <AnimatePresence initial={false}>
             {!startApp && <SplashScreen />}
-            {startApp && <MenuContainer />}
+            {startApp && !startGame && <MenuContainer />}
             {startGame && <GameContainer />}
           </AnimatePresence>
         </Route>
