@@ -167,8 +167,26 @@ const SplashScreen = () => {
         prop_key={index}
         pathX={pathSet.pathX}
         pathY={pathSet.pathY}
+        initialX={pathSet[0].pathX}
+        initialY={pathSet[0].pathY}
+        favour={favour}
       />
     ));
+  };
+
+  const splashScreenVarients = {
+    unActive: {
+      opacity: 0,
+      transition: {
+        delay: 1.5
+      }
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        delay: 0
+      }
+    }
   };
 
   return (
@@ -182,33 +200,31 @@ const SplashScreen = () => {
         top: 0,
         left: 0
       }}
-      exit={{
-        opacity: 0
-      }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 2 }}
+      initial={"unActive"}
+      animate={"active"}
+      exit={"unActive"}
+      variants={splashScreenVarients}
     >
       {generatePixelings()}
       <AnimatePresence>
         {!startApp && (
           <Frame
-          style={{
-            fontFamily: "'Maven Pro', sans-serif",
-            fontSize: "220px",
-            fontWeight: 500,
-            color: "rgb(232, 232, 232)",
-            height: "220px",
-            marginTop: "30px"
-          }}
-          center="x"
-          size={"100%"}
-          background={""}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ ease: "easeInOut", duration: 0.5 }}
-          id="splash-screen-title-container"
+            style={{
+              fontFamily: "'Maven Pro', sans-serif",
+              fontSize: "220px",
+              fontWeight: 500,
+              color: "rgb(232, 232, 232)",
+              height: "220px",
+              marginTop: "30px"
+            }}
+            center="x"
+            size={"100%"}
+            background={""}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ ease: "easeInOut", duration: 0.5 }}
+            id="splash-screen-title-container"
           >
             <Frame
               size={"100%"}
@@ -264,23 +280,35 @@ const Pixeling = props => {
   const key = props.prop_key;
   const pathX = props.pathX;
   const pathY = props.pathY;
+  const initialX = props.initalX;
+  const initialY = props.initalY;
+  const favour = props.favour;
   const colourObject = colourArray();
+
+  const generateExitPath = () => {
+    {x: initialX, y: favour }
+  }
+
   return (
-    <Frame
-      class="splash-screen-pixeling"
-      key={`splash-screen-pixeling-${key}`}
-      center
-      style={{
-        height: "50px",
-        width: "50px"
-      }}
-      backgroundColor={colourObject.colour}
-      animate={{ x: pathX, y: pathY }}
-      transition={{
-        duration: 160,
-        ease: "easeInOut"
-      }}
-      shadow={colourObject.shadow}
-    ></Frame>
+    <AnimatePresence>
+      <Frame
+        class="splash-screen-pixeling"
+        key={`splash-screen-pixeling-${key}`}
+        center
+        style={{
+          height: "50px",
+          width: "50px"
+        }}
+        initial={{ opacity: 0 }}
+        backgroundColor={colourObject.colour}
+        animate={{ x: pathX, y: pathY }}
+        transition={{
+          duration: 160,
+          ease: "easeInOut"
+        }}
+        exit={()=> generateExitPath()}
+        shadow={colourObject.shadow}
+      ></Frame>
+    </AnimatePresence>
   );
 };

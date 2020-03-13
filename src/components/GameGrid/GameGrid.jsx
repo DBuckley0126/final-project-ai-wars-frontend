@@ -23,17 +23,17 @@ const GameGrid = () => {
   };
 
   return (
-      <div
-        id="game-grid"
-        onPointerDown={() => {
-          setOkay(true);
-        }}
-        onPointerUp={() => {
-          setOkay(false);
-        }}
-      >
-        {generateGrid()}
-      </div>
+    <div
+      id="game-grid"
+      onPointerDown={() => {
+        setOkay(true);
+      }}
+      onPointerUp={() => {
+        setOkay(false);
+      }}
+    >
+      {generateGrid()}
+    </div>
   );
 };
 

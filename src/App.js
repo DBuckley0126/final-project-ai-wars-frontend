@@ -35,10 +35,13 @@ const App = () => {
     <>
       <Switch>
         <Route exact path={"/"}>
-          <AnimatePresence initial={false}>
+          <AnimatePresence>
             {!startApp && <SplashScreen />}
+            {/* {startGame && <GameContainer />} */}
+          </AnimatePresence>
+          <AnimatePresence>
             {startApp && !startGame && <MenuContainer />}
-            {startGame && <GameContainer />}
+            {/* {<MenuContainer />} */}
           </AnimatePresence>
         </Route>
         <Route path="/how-to-use">

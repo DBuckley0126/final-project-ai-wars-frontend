@@ -1,18 +1,4 @@
-.lobby-container{
-  background: #816767;
-  width: 800px;
-  height: 800px;
-  display: flex;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  flex-wrap: nowrap;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  align-content: center;
-
+#lobby-container{
   .user-lobby-container{
     width: 400px;
     height:800px;
