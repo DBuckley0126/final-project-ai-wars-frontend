@@ -73,18 +73,22 @@ const SplashScreen = () => {
       directionHash["west2"] = { x: -50, y: 0 };
       directionHash["west3"] = { x: -50, y: 0 };
       directionHash["west4"] = { x: -50, y: 0 };
+      directionHash["west5"] = { x: -50, y: 0 };
     } else if (favour == "north") {
       directionHash["north2"] = { x: 0, y: 50 };
       directionHash["north3"] = { x: 0, y: 50 };
       directionHash["north4"] = { x: 0, y: 50 };
+      directionHash["north5"] = { x: 0, y: 50 };
     } else if (favour == "east") {
       directionHash["east2"] = { x: 50, y: 0 };
       directionHash["east3"] = { x: 50, y: 0 };
       directionHash["east4"] = { x: 50, y: 0 };
+      directionHash["east5"] = { x: 50, y: 0 };
     } else if (favour == "south") {
       directionHash["south2"] = { x: 0, y: -50 };
       directionHash["south3"] = { x: 0, y: -50 };
       directionHash["south4"] = { x: 0, y: -50 };
+      directionHash["south5"] = { x: 0, y: -50 };
     }
 
     const keys = Object.keys(directionHash);
@@ -110,35 +114,36 @@ const SplashScreen = () => {
   const generatePixelings = () => {
     const clientHeight = document.documentElement.clientHeight;
     const clientWidth = document.documentElement.clientWidth;
+
     const rightHandSideX = clientWidth / 2 + 50;
     const rightHandSideY = clientHeight / 2 + 50;
-    const leftHandSideX = -(clientWidth / 2 - 50);
-    const leftHandSideY = clientHeight / 2 + 50;
-    const bottomSideX = clientWidth / 2 + 50;
+    const leftHandSideX = -(clientWidth / 2 + 50);
+    const leftHandSideY = clientHeight / 2 - 50;
+    const bottomSideX = (clientWidth / 2) * -1;
     const bottomSideY = clientHeight / 2 + 50;
 
     let initalPositionArrayWest = [
-      { x: rightHandSideX, y: rightHandSideY },
-      { x: rightHandSideX, y: rightHandSideY - 100 },
-      { x: rightHandSideX, y: rightHandSideY - 300 },
-      { x: rightHandSideX, y: rightHandSideY - 500 },
-      { x: rightHandSideX, y: rightHandSideY - 800 }
+      { x: rightHandSideX, y: rightHandSideY - ((clientHeight / 5) * 1)},
+      { x: rightHandSideX, y: rightHandSideY - ((clientHeight / 5) * 2) },
+      { x: rightHandSideX, y: rightHandSideY - ((clientHeight / 5) * 3) },
+      { x: rightHandSideX, y: rightHandSideY - ((clientHeight / 5) * 4) },
+      { x: rightHandSideX, y: rightHandSideY - ((clientHeight / 5) * 5) }
     ];
 
     let initalPositionArrayEast = [
-      { x: leftHandSideX, y: leftHandSideY },
-      { x: leftHandSideX, y: leftHandSideY - 100 },
-      { x: leftHandSideX, y: leftHandSideY - 300 },
-      { x: leftHandSideX, y: leftHandSideY - 500 },
-      { x: leftHandSideX, y: leftHandSideY - 800 }
+      { x: leftHandSideX, y: leftHandSideY - ((clientHeight / 5) * 1) },
+      { x: leftHandSideX, y: leftHandSideY - ((clientHeight / 5) * 2) },
+      { x: leftHandSideX, y: leftHandSideY - ((clientHeight / 5) * 3) },
+      { x: leftHandSideX, y: leftHandSideY - ((clientHeight / 5) * 4) },
+      { x: leftHandSideX, y: leftHandSideY - ((clientHeight / 5) * 5) }
     ];
 
     let initalPositionArraySouth = [
       { x: bottomSideX, y: bottomSideY },
-      { x: bottomSideX - 100, y: bottomSideY },
-      { x: bottomSideX - 300, y: bottomSideY },
-      { x: bottomSideX - 500, y: bottomSideY },
-      { x: bottomSideX - 800, y: bottomSideY }
+      { x: bottomSideX + ((clientWidth / 4) * 1), y: bottomSideY },
+      { x: bottomSideX + ((clientWidth / 4) * 2), y: bottomSideY },
+      { x: bottomSideX + ((clientWidth / 4) * 3), y: bottomSideY },
+      { x: bottomSideX + ((clientWidth / 4) * 4), y: bottomSideY }
     ];
 
     let pathArray = [];
@@ -146,30 +151,42 @@ const SplashScreen = () => {
     for (let i = 0; i < 5; i++) {
       let paths = generatePaths(initalPositionArrayWest[i], "west");
 
-      pathArray.push({ pathX: paths.pathArrayX, pathY: paths.pathArrayY });
+      pathArray.push({
+        pathX: paths.pathArrayX,
+        pathY: paths.pathArrayY,
+        favour: "west"
+      });
     }
 
     for (let i = 0; i < 5; i++) {
       let paths = generatePaths(initalPositionArrayEast[i], "east");
 
-      pathArray.push({ pathX: paths.pathArrayX, pathY: paths.pathArrayY });
+      pathArray.push({
+        pathX: paths.pathArrayX,
+        pathY: paths.pathArrayY,
+        favour: "east"
+      });
     }
 
     for (let i = 0; i < 5; i++) {
       let paths = generatePaths(initalPositionArraySouth[i], "south");
 
-      pathArray.push({ pathX: paths.pathArrayX, pathY: paths.pathArrayY });
+      pathArray.push({
+        pathX: paths.pathArrayX,
+        pathY: paths.pathArrayY,
+        favour: "south"
+      });
     }
-
     return pathArray.map((pathSet, index) => (
+      
       <Pixeling
         key={index}
         prop_key={index}
         pathX={pathSet.pathX}
         pathY={pathSet.pathY}
-        initialX={pathSet[0].pathX}
-        initialY={pathSet[0].pathY}
-        favour={favour}
+        initialX={pathSet.pathX[0]}
+        initialY={pathSet.pathY[0]}
+        favour={pathSet.favour}
       />
     ));
   };
@@ -277,38 +294,93 @@ const SplashScreen = () => {
 export default SplashScreen;
 
 const Pixeling = props => {
+  const startApp = useSelector(state => state.app.startApp);
   const key = props.prop_key;
   const pathX = props.pathX;
   const pathY = props.pathY;
-  const initialX = props.initalX;
-  const initialY = props.initalY;
+  const initialX = props.initialX;
+  const initialY = props.initialY;
   const favour = props.favour;
   const colourObject = colourArray();
 
   const generateExitPath = () => {
-    {x: initialX, y: favour }
-  }
+    if (favour === "north" || favour === "south") {
+      return { y: initialY };
+    } else if (favour === "east" || favour === "west") {
+      return { x: initialX };
+    }
+  };
+
+  const generatePixelingVariants = () => {
+
+    if (favour === "north" || favour === "south") {
+      return {
+        unActive: {
+        },
+        active: {
+          x: pathX,
+          y: pathY,
+          transition: {
+            duration: 160,
+            ease: "easeInOut"
+          }
+        },
+        exit: {
+          y: initialY,
+          transition: {
+            duration: 0.5,
+            ease: "easeInOut"
+          }
+        }
+      };
+    } else if (favour === "east" || favour === "west") {
+      return {
+        unActive: {
+        },
+        active: {
+          x: pathX,
+          y: pathY,
+          transition: {
+            duration: 160,
+            ease: "easeInOut"
+          }
+        },
+        exit: {
+          x: initialX,
+          transition: {
+            duration: 0.5,
+            ease: "easeInOut"
+          }
+        }
+      };
+    }
+  };
 
   return (
     <AnimatePresence>
-      <Frame
-        class="splash-screen-pixeling"
-        key={`splash-screen-pixeling-${key}`}
-        center
-        style={{
-          height: "50px",
-          width: "50px"
-        }}
-        initial={{ opacity: 0 }}
-        backgroundColor={colourObject.colour}
-        animate={{ x: pathX, y: pathY }}
-        transition={{
-          duration: 160,
-          ease: "easeInOut"
-        }}
-        exit={()=> generateExitPath()}
-        shadow={colourObject.shadow}
-      ></Frame>
+      {!startApp && (
+        <Frame
+          class="splash-screen-pixeling"
+          key={`splash-screen-pixeling-${key}`}
+          center
+          style={{
+            height: "50px",
+            width: "50px"
+          }}
+          initial={"unActive"}
+          backgroundColor={colourObject.colour}
+          // animate={{ x: pathX, y: pathY }}
+          animate={"active"}
+          // transition={{
+          //   duration: 160,
+          //   ease: "easeInOut"
+          // }}
+          // exit={() => generateExitPath()}
+          exit={"exit"}
+          shadow={colourObject.shadow}
+          variants={generatePixelingVariants()}
+        ></Frame>
+      )}
     </AnimatePresence>
   );
 };
