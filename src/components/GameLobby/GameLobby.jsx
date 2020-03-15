@@ -5,128 +5,334 @@ import "./GameLobby.scss";
 import ReadyUpButton from "../ReadyUpButton/ReadyUpButton";
 import LobbyColourPicker from "../LobbyColourPicker/LobbyColourPicker";
 import useLocalUserType from "../../hooks/useLocalUserType/useLocalUserType";
-import { Frame, AnimatePresence } from "framer";
+import { Frame, AnimatePresence, useAnimation } from "framer";
 
 const GameLobby = () => {
-  console.log("Game lobby rendered");
-
   const lobbyData = useSelector(state => state.gameOverseer.lobbyData);
+  const showLobby = useSelector(state => state.app.showLobby);
+  const startGame = useSelector(state => state.app.startGame);
+
+  const controls = useAnimation();
 
   const local_user_type = useLocalUserType();
 
-  const hostUserLobbyColour = lobbyData.attributes.host_user_colour;
-  const joinUserLobbyColour = lobbyData.attributes.join_user_colour;
+  let hostUserLobbyColour = lobbyData.attributes.host_user_colour;
+  let joinUserLobbyColour = lobbyData.attributes.join_user_colour;
 
-  const renderUserAttributes = user => {
-    if (user) {
-      return (
-        <div className="lobby-user-attributes" alt="User Attributes">
-          {user.picture && (
-            <img
-              src={user.picture}
-              alt="User Icon"
-              className={"user-profile-picture"}
-            ></img>
-          )}
-          {user.full_name && <h4>{user.full_name}</h4>}
-          {user.skill_rating && <h5>{user.skill_rating}</h5>}
-        </div>
-      );
+  const generateUserName = user => {
+    if (user.given_name) {
+      return user.given_name;
     } else {
-      return (
-        <div
-          className="lobby-user-attributes lobby-user-attributes-waiting"
-          alt="User Attributes"
-        >
-          <h4>Waiting for player to join</h4>
-        </div>
-      );
+      if (local_user_type === "host_user") {
+        return "Player 1";
+      } else {
+        return "Player 2";
+      }
     }
   };
 
-  const generateLobbyState = () => {
-    const generateHostUserLobbyContainerStyle = () => {
-      if (joinUserLobbyColour) {
-        return { background: hostUserLobbyColour };
-      } else {
-        return {};
+  const userLobbyProfilePictureContainerVariants = {
+    unActive: {
+      scale: 0
+    },
+    active: {
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        type: "spring",
+        delay: 1.1
       }
-    };
-
-    const generateJoinUserLobbyContainerStyle = () => {
-      if (hostUserLobbyColour) {
-        return { background: joinUserLobbyColour };
-      } else {
-        return {};
+    },
+    exit: {
+      scale: 0,
+      transition: {
+        duration: 0.5,
+        type: "spring",
+        delay: 0.5
       }
-    };
+    }
+  };
 
-    const lobbyContainerVariants = {
-      unActive: {
-        scale: 0.2,
-        shadow: "0 0 0px 0px rgba(250, 250, 250, 0.300)",
-        transition: {
-          default: { duration: 1, ease: "easeOut" },
-          scale: { duration: 1 },
-          delay: 4
-        }
-      },
-      active: {
-        scale: 1,
-        shadow: "0 0 20px 1px rgba(250, 250, 250, 0.300)",
-        transition: {
-          default: { duration: 1, ease: "easeOut" },
-          scale: { duration: 1 },
-          delay: 4
-        }
+  const userLobbyProfileSkillRatingVariants = {
+    unActive: {
+      opacity: 0,
+      transition: {
+        duration: 0.4,
+        delay: 0
       }
-    };
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        delay: 1.7
+      }
+    }
+  };
 
+  const userLobbyProfileNameVariants = {
+    unActive: {
+      opacity: 0,
+      transition: {
+        duration: 0.4,
+        delay: 0.2
+      }
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        delay: 1.5
+      }
+    }
+  };
+
+  const userlobbyProfileWaitingVariants = {
+    unActive: {
+      opacity: 0
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        delay: 1.4
+      }
+    },
+    exit: {
+      opcaity: 0,
+      transition: {
+        duration: 1,
+        delay: 0
+      }
+    }
+  };
+
+
+
+  const renderUserAttributes = user => {
+    
     return (
       <AnimatePresence>
-        <Frame
-          id="lobby-container"
-          style={{
-            backgroundColor: "rgb(232, 232, 232)",
-            display: "flex",
-            position: "absolute",
-            flexWrap: "nowrap",
-            flexDirection: "row",
-            justifyContent: "flex-start",
-            alignItems: "center",
-            alignContent: "center"
-          }}
-          width="800px"
-          height="800px"
-          inital="unActive"
-          animate="active"
-          variants={lobbyContainerVariants}
-          center
-        >
-          <div
-            className="user-lobby-container host-user-lobby-container"
-            style={generateHostUserLobbyContainerStyle()}
+        {user && user.picture && (
+          <Frame
+            className={"user-lobby-profile-picture-container"}
+            key={`user-lobby-profile-picture-container-${user.id}`}
+            initial="unActive"
+            animate="active"
+            exit="exit"
+            style={{
+              width: "180px",
+              height: "180px",
+              backgroundColor: "rgba(232, 232, 232, 0)",
+              y: "-70%",
+              display: "flex",
+              justifyContent: "center"
+            }}
+            center
+            variants={userLobbyProfilePictureContainerVariants}
           >
-            <p>Host User</p>
-            {lobbyData.attributes.host_user &&
-              renderUserAttributes(lobbyData.attributes.host_user)}
-            {local_user_type === "host_user" && <LobbyColourPicker />}
-          </div>
-          <div
-            className="user-lobby-container join-user-lobby-container"
-            style={generateJoinUserLobbyContainerStyle()}
+            <img
+              src={user.picture}
+              alt="User Icon"
+              className={"user-lobby-profile-picture"}
+            ></img>
+          </Frame>
+        )}
+
+        {user && !startGame && (
+          <Frame
+            center
+            key={`user-lobby-profile-name-${user.id}`}
+            initial="unActive"
+            animate="active"
+            exit="unActive"
+            style={{
+              backgroundColor: "rgba(232, 232, 232, 0)",
+              y: "0%"
+            }}
+            variants={userLobbyProfileNameVariants}
+            className={"user-lobby-profile-name"}
           >
-            {lobbyData.attributes.join_user &&
-              renderUserAttributes(lobbyData.attributes.join_user)}
-            {local_user_type === "join_user" && <LobbyColourPicker />}
-          </div>
-          <ReadyUpButton lobbyData={lobbyData} />
-        </Frame>
+            {generateUserName(user)}
+          </Frame>
+        )}
+
+        {user && !startGame && user.skill_rating && (
+          <Frame
+            key={`user-lobby-profile-skill-rating-${user.id}`}
+            initial="unActive"
+            animate="active"
+            exit="unActive"
+            style={{
+              backgroundColor: "rgba(232, 232, 232, 0)",
+              y: "20%"
+            }}
+            center
+            variants={userLobbyProfileSkillRatingVariants}
+            className={"user-lobby-profile-skill-rating"}
+          >
+            {user.skill_rating}
+          </Frame>
+        )}
+
+        {!user && !startGame && (
+          <Frame
+            className={"user-lobby-profile-waiting"}
+            center
+            initial="unActive"
+            animate="active"
+            exit="unActive"
+            style={{
+              backgroundColor: "",
+              y: "-40%"
+            }}
+            variants={userlobbyProfileWaitingVariants}
+          >
+            Waiting
+          </Frame>
+        )}
       </AnimatePresence>
     );
   };
 
-  return <>{generateLobbyState()}</>;
+  const lobbyContainerHostVariants = {
+    unActive: {
+      width: "0%",
+      x: "0px",
+      transition: {
+        duration: 1,
+        ease: "easeInOut",
+        delay: 0.2
+      }
+    },
+    active: {
+      width: "50%",
+      transition: {
+        duration: 1,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const lobbyContainerHostInfoVariants = {
+    unActive: {
+      opacity: 0
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        duration: 0.2,
+        ease: "easeInOut",
+        delay: 1
+      }
+    }
+  };
+
+  const lobbyContainerJoinVariants = {
+    unActive: {
+      width: "0%",
+      x: "0px",
+      transition: {
+        duration: 1,
+        ease: "easeInOut",
+        delay: 0.2
+      }
+    },
+    active: {
+      width: "50%",
+      transition: {
+        duration: 1,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const lobbyContainerJoinInfoVariants = {
+    unActive: {
+      opacity: 0
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        duration: 0.2,
+        ease: "easeInOut",
+        delay: 1
+      }
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      {showLobby && (
+        <Frame
+          id="host-user-lobby-container"
+          key="host-user-lobby-container"
+          style={{
+            height: "100%",
+            position: "absolute",
+            left: 0
+          }}
+          initial="unActive"
+          animate="active"
+          exit="unActive"
+          variants={lobbyContainerHostVariants}
+          center="y"
+          backgroundColor={hostUserLobbyColour}
+        >
+          <Frame
+            id="host-user-lobby-info-container"
+            style={{
+              height: "100%",
+              width: "100%",
+              position: "absolute",
+              backgroundColor: ""
+            }}
+            variants={lobbyContainerHostInfoVariants}
+            center
+          >
+            {renderUserAttributes(lobbyData.attributes.host_user)}
+            {local_user_type === "host_user" && <LobbyColourPicker />}
+          </Frame>
+        </Frame>
+      )}
+      {showLobby && (
+        <Frame
+          id="join-user-lobby-container"
+          key="join-user-lobby-container"
+          style={{
+            height: "100%",
+            position: "absolute",
+            right: 0
+          }}
+          initial="unActive"
+          animate="active"
+          exit={"unActive"}
+          variants={lobbyContainerJoinVariants}
+          center="y"
+          backgroundColor={joinUserLobbyColour}
+        >
+          <AnimatePresence>
+            <Frame
+              id="join-user-lobby-info-container"
+              style={{
+                height: "100%",
+                width: "100%",
+                position: "absolute",
+                backgroundColor: ""
+              }}
+              variants={lobbyContainerJoinInfoVariants}
+              center
+            >
+              {renderUserAttributes(lobbyData.attributes.join_user)}
+              {local_user_type === "join_user" && <LobbyColourPicker />}
+            </Frame>
+          </AnimatePresence>
+        </Frame>
+      )}
+      )}
+      <ReadyUpButton lobbyData={lobbyData} />
+    </AnimatePresence>
+  );
 };
 
 export default GameLobby;

@@ -68,6 +68,13 @@ export const updateTurnCount = payload => {
   };
 };
 
+export const updateShowLobby = payload => {
+  return {
+    type: "UPDATE_SHOW_LOBBY",
+    payload: payload
+  };
+};
+
 export const resetGameOverseer = () => {
   return {
     type: "RESET_GAME_OVERSEER"

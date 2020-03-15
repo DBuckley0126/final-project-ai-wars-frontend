@@ -4,13 +4,14 @@ import GameInstance from "../../components/GameInstance/GameInstance";
 import "./GameInstancesContainer.scss";
 import useAutoScroll from "../../hooks/useAutoScroll/useAutoScroll";
 import { initGameInstancesOverseerSubscription } from "./GameInstancesContainerActions";
-import { Frame, AnimatePresence } from "framer";
+import { Frame, Scroll, AnimatePresence } from "framer";
 
 const GameInstancesContainer = () => {
   const dispatch = useDispatch();
 
   const cable = useSelector(state => state.gameInstancesOverseer.cable);
   const userSynced = useSelector(state => state.auth0.synced);
+  const showLobby = useSelector(state => state.app.showLobby);
 
   useEffect(() => {
     dispatch(initGameInstancesOverseerSubscription(userSynced));
@@ -30,7 +31,12 @@ const GameInstancesContainer = () => {
   const gameInstancesContainerVariants = {
     unActive: {
       scale: 0.25,
-      shadow: "0 0 0px 0px rgba(250, 250, 250, 0.300)"
+      shadow: "0 0 0px 0px rgba(250, 250, 250, 0.300)",
+      transition: {
+        default: { duration: 1, ease: "easeOut" },
+        scale: { duration: 1, type: "spring", delay: 1.7, stiffness: 120 },
+        shadow: { duration: 1, ease: "easeOut", delay: 2 }
+      }
     },
     active: {
       scale: 1,
@@ -39,6 +45,35 @@ const GameInstancesContainer = () => {
         default: { duration: 1, ease: "easeOut" },
         scale: { duration: 1, type: "spring", delay: 1.7, stiffness: 120 },
         shadow: { duration: 1, ease: "easeOut", delay: 2 }
+      }
+    }
+  };
+
+  const gameInstancesChildContainerVariants = {
+    unActive: {
+      opacity: 0,
+      visable: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    },
+    active: {
+      opacity: 1,
+      visable: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+        delay: 2
+      }
+    },
+    exit: {
+      opacity: 0,
+      visable: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+        visable: { delay: 0.5 }
       }
     }
   };
@@ -53,7 +88,7 @@ const GameInstancesContainer = () => {
           display: "flex",
           position: "absolute",
           flexWrap: "nowrap",
-          flexDirection: "row",
+          flexDirection: "column",
           justifyContent: "flex-start",
           alignItems: "baseline",
           alignContent: "center",
@@ -61,12 +96,65 @@ const GameInstancesContainer = () => {
         }}
         width="800px"
         height="800px"
-        inital="unActive"
+        initial="unActive"
         animate="active"
         variants={gameInstancesContainerVariants}
         center
       >
-        {renderGameInstances()}
+        <Frame
+          style={{
+            display: "flex",
+            backgroundColor: "rgba(214, 214, 214, 0)",
+            position: "relative",
+            width: "700px",
+            height: "40px",
+            flexWrap: "nowrap",
+            justifyContent: "space-between",
+            alignItems: "center",
+            alignContent: "center"
+          }}
+          center="x"
+        ></Frame>
+        <AnimatePresence>
+          {!showLobby && (
+            <Frame
+              id="game-instances-child-container"
+              style={{
+                display: "flex",
+                backgroundColor: "rgba(214, 214, 214, 0)",
+                position: "relative",
+                width: "700px",
+                flexWrap: "nowrap",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                alignItems: "center",
+                alignContent: "center"
+              }}
+              initial="unActive"
+              animate="active"
+              exit="exit"
+              variants={gameInstancesChildContainerVariants}
+              center="x"
+            >
+              {renderGameInstances()}
+            </Frame>
+          )}
+        </AnimatePresence>
+
+        <Frame
+          style={{
+            display: "flex",
+            backgroundColor: "rgba(214, 214, 214, 0)",
+            position: "relative",
+            width: "700px",
+            height: "80px",
+            flexWrap: "nowrap",
+            justifyContent: "space-between",
+            alignItems: "center",
+            alignContent: "center"
+          }}
+          center="x"
+        ></Frame>
       </Frame>
     </AnimatePresence>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { startApp } from "./startAppButtonActions";
+import acquireColourArray from "../../hooks/acquireColourArray/acquireColourArray";
 
 import { Frame, AnimatePresence } from "framer";
 
@@ -16,44 +17,6 @@ const StartAppButton = () => {
 
   // nickname for non google user
   // given_name for google user
-
-  const colourArray = () => {
-    const array = [
-      {
-        colour: "rgba(0,255,232, 1)",
-        shadow: "0 0 20px 1px rgba(0,255,232, 0.300)"
-      },
-      {
-        colour: "rgba(255,0,248, 1)",
-        shadow: "0 0 20px 1px rgba(255,0,248, 0.300)"
-      },
-      {
-        colour: "rgba(184,2,249, 1)",
-        shadow: "0 0 20px 1px rgba(184,2,249, 0.300)"
-      },
-      {
-        colour: "rgba(47,251,1, 1)",
-        shadow: "0 0 20px 1px rgba(47,251,1, 0.300)"
-      },
-      {
-        colour: "rgba(251,126,0, 1)",
-        shadow: "0 0 20px 1px rgba(251,126,0, 0.300)"
-      },
-      {
-        colour: "rgba(0,30,255, 1)",
-        shadow: "0 0 20px 1px rgba(0,30,255, 0.300)"
-      },
-      {
-        colour: "rgba(235,255,0, 1)",
-        shadow: "0 0 20px 1px rgba(235,255,0, 0.300)"
-      },
-      {
-        colour: "rgba(255,0,0, 1)",
-        shadow: "0 0 20px 1px rgba(255,0,0, 0.300)"
-      }
-    ];
-    return array[Math.floor(Math.random() * array.length)];
-  };
 
   const generateAccountInfo = () => {
     if (user.given_name) {
@@ -90,7 +53,7 @@ const StartAppButton = () => {
   };
 
   const hoverStyle = () => {
-    const colour = colourArray();
+    const colour = acquireColourArray();
     return {
       scale: 1.05,
       shadow: colour.shadow,
@@ -147,8 +110,8 @@ const StartAppButton = () => {
         default: { duration: 1, ease: "easeOut" },
         scale: { duration: 0.2, type: "spring", stiffness: 200 },
         backgroundColor: { duration: 0.4, ease: "easeOut" },
-        delay: 0.4,
-        delayChildren: 0.8
+        delay: 0.8,
+        delayChildren: 1.2
       }
     }
   };
@@ -184,8 +147,8 @@ const StartAppButton = () => {
         default: { duration: 1, ease: "easeOut" },
         scale: { duration: 0.2, type: "spring", stiffness: 200 },
         backgroundColor: { duration: 0.4, ease: "easeOut" },
-        delay: 0.4,
-        delayChildren: 0.8
+        delay: 0.8,
+        delayChildren: 1.2
       }
     }
   };
@@ -208,7 +171,8 @@ const StartAppButton = () => {
         whileHover={() => hoverStyle()}
         animate={"active"}
         style={{
-          backgroundColor: "rgb(232, 232, 232)"
+          backgroundColor: "rgb(232, 232, 232)",
+          cursor: "pointer"
         }}
         variants={mainButtonVariants}
         center
@@ -226,7 +190,8 @@ const StartAppButton = () => {
           animate={"active"}
           exit={"unActive"}
           style={{
-            backgroundColor: "rgb(232, 232, 232)"
+            backgroundColor: "rgb(232, 232, 232)",
+            cursor: "pointer"
           }}
           variants={logoutButtonVariants}
         >
@@ -247,6 +212,7 @@ const StartAppButton = () => {
           initial={"unActive"}
           whileHover={() => hoverStyle()}
           animate={"active"}
+          exit={"unActive"}
           center
           style={{
             backgroundColor: "rgb(232, 232, 232)"

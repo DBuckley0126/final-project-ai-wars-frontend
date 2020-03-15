@@ -4,6 +4,10 @@ const useLocalUserType = () => {
   const lobbyData = useSelector(state => state.gameOverseer.lobbyData);
   const local_user = useSelector(state => state.auth0.user);
 
+  if(!lobbyData.attributes){
+    return
+  }
+
   const local_user_type = () => {
     if (local_user.sub === lobbyData.attributes.host_user.sub) {
       return "host_user";

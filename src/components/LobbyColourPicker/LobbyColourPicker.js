@@ -4,13 +4,16 @@ import React, { useState } from "react";
 import "./LobbyColourPicker.scss";
 import { updateUserLobbyStatus } from "./LobbyColourPickerActions";
 import useLocalUserType from "../../hooks/useLocalUserType/useLocalUserType";
+import { Frame, AnimatePresence, useAnimation } from "framer";
 
 const LobbyColourPicker = () => {
   const lobbyData = useSelector(state => state.gameOverseer.lobbyData);
-
-  const [colourPickerShow, setColourPickerShow] = useState(false);
+  const startGame = useSelector(state => state.app.startGame);
+  const showLobby = useSelector(state => state.app.showLobby);
 
   const local_user_type = useLocalUserType();
+
+  const controls = useAnimation();
 
   let lobbyColour = null;
   let disabledLobbyValue = null;
@@ -23,9 +26,17 @@ const LobbyColourPicker = () => {
     disabledLobbyValue = lobbyData.attributes.host_user_colour;
   }
 
-  const colourArray = ["#3432a8", "#a83283", "#3ca832", "#a83c32"];
+  const colourArray = [
+    "rgba(0,255,232, 1)",
+    "rgba(255,0,248, 1)",
+    "rgba(184,2,249, 1)",
+    "rgba(47,251,1, 1)",
+    "rgba(251,126,0, 1)",
+    "rgba(0,30,255, 1)",
+    "rgba(235,255,0, 1)",
+    "rgba(255,0,0, 1)"
+  ];
 
-  console.log("Render Team colour picker");
   const generateColourOptions = () => {
     return colourArray.map(colourValue => (
       <LobbyColourPickerOption
@@ -33,33 +44,65 @@ const LobbyColourPicker = () => {
         colourValue={colourValue}
         selectedLobbyValue={lobbyColour}
         disabledLobbyValue={disabledLobbyValue}
+        controls={controls}
       />
     ));
   };
 
-  const generateLobbyColourPickerState = () => {
-    if (colourPickerShow) {
-      return (
-        <div
-          onMouseEnter={() => setColourPickerShow(true)}
-          onMouseLeave={() => setColourPickerShow(false)}
-          id="lobby-colour-picker"
-        >
-          {generateColourOptions()}
-        </div>
-      );
-    } else {
-      return (
-        <div
-          onMouseEnter={() => setColourPickerShow(true)}
-          onMouseLeave={() => setColourPickerShow(false)}
-          id="lobby-colour-picker-hover-button"
-        ></div>
-      );
+  const colourPickerVariants = {
+    unHovered: {
+      height: "10px"
+    },
+    hovered: {
+      height: "50px"
+    },
+    exit: {
+      opacity: 0,
+      visable: 0,
+      transition:{
+        duration: 0.2,
+        visable: {
+          delay: 0.2
+        }
+      }
     }
   };
 
-  return generateLobbyColourPickerState();
+  async function handleHoverStart() {
+    await controls.start("hovered");
+  }
+
+  async function handleHoverEnd() {
+    await controls.start("unHovered");
+  }
+
+  return (
+    <AnimatePresence>
+      {showLobby && !startGame && (
+        <Frame
+          initial="unHovered"
+          variants={colourPickerVariants}
+          whileHover={handleHoverStart}
+          onHoverEnd={handleHoverEnd}
+          animate={controls}
+          exit={"exit"}
+          style={{
+            width: "100%",
+            bottom: "0px",
+            display: "flex",
+            flexWrap: "nowrap",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "flex-end",
+            alignContent: "center",
+            backgroundColor: ""
+          }}
+        >
+          {generateColourOptions()}
+        </Frame>
+      )}
+    </AnimatePresence>
+  );
 };
 
 export default LobbyColourPicker;
@@ -69,32 +112,61 @@ const LobbyColourPickerOption = props => {
   const colourValue = props.colourValue;
   const selectedLobbyValue = props.selectedLobbyValue;
   const disabledLobbyValue = props.disabledLobbyValue;
-
-  const pickerStyle = {
-    background: colourValue
-  };
+  const controls = props.controls;
 
   const colourHandler = () => {
-    dispatch(updateUserLobbyStatus({ teamColour: colourValue }));
+    if (disabledLobbyValue !== colourValue) {
+      dispatch(updateUserLobbyStatus({ teamColour: colourValue }));
+    }
   };
 
-  const selectedClassName = () => {
-    if (selectedLobbyValue === colourValue) {
-      return "lobby-colour-picker-option lobby-colour-picker-option-selected";
-
-    } else if (disabledLobbyValue === colourValue) {
-      return "lobby-colour-picker-option lobby-colour-picker-option-disabled";
+  const generateStyle = () => {
+    if (disabledLobbyValue === colourValue) {
+      return {
+        width: "50px",
+        position: "relative",
+        cursor: ""
+      };
     } else {
-      return "lobby-colour-picker-option";
+      return {
+        width: "50px",
+        position: "relative",
+        cursor: "pointer"
+      };
+    }
+  };
+
+  const generateHeight = () => {
+    if (disabledLobbyValue === colourValue) {
+      return {
+        height: "50px"
+      };
+    } else {
+      return {
+        height: "60px"
+      };
+    }
+  };
+
+  const colourPickerOptionVariants = {
+    unHovered: {
+      height: "10px"
+    },
+    hovered: {
+      height: "50px"
     }
   };
 
   return (
-    <button
-      style={pickerStyle}
-      disabled={disabledLobbyValue === colourValue}
-      className={selectedClassName()}
+    <Frame
+      className="lobby-colour-picker-option"
+      backgroundColor={colourValue}
       onClick={() => colourHandler()}
-    ></button>
+      whileHover={generateHeight()}
+      initial="unHovered"
+      animate={controls}
+      style={generateStyle()}
+      variants={colourPickerOptionVariants}
+    ></Frame>
   );
 };

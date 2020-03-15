@@ -5,6 +5,7 @@ import GameGridViewContainer from "../GameGridViewContainer/GameGridViewContaine
 import SpawnerOverview from "../../components/SpawnerOverview/SpawnerOverview";
 import TurnView from "../../components/TurnView/TurnView";
 import EndDisplay from "../../components/EndDisplay/EndDisplay"
+import { Frame, AnimatePresence, useAnimation } from "framer";
 
 import {
   initGameOverseerSubscription,
@@ -18,6 +19,7 @@ import "./GameContainer.scss";
 const GameContainer = () => {
   console.log("Rendering Game Container");
   const dispatch = useDispatch();
+  const hostSideControls = useAnimation()
 
   const gameComplete = useSelector(state => state.gameOverseer.gameComplete);
 
@@ -39,9 +41,42 @@ const GameContainer = () => {
   //   return endLobby;
   // }, [apiToken, dispatch]);
 
+  const gameContainerHostSideVariants = {
+    unActive: {
+      opacity: 0,
+      width: "50%",
+      height: "100%",
+    },
+    active: {
+
+    }
+  }
+
+  const controlGameContainerHostSideAnimation
+
   return (
-    <>
+    <AnimatePresence>
       {gameComplete && <EndDisplay />}
+      <Frame
+        id="game-container-host-side"
+        initial="unActive"
+        whileHover={() => hoverStyle()}
+        animate={hostSideControls}
+        style={{
+          backgroundColor: "rgb(232, 232, 232)",
+          cursor: "pointer",
+          left: 0
+        }}
+        variants={gameContainerHostSideVariants}
+        center
+      >
+
+      </Frame>
+      <Frame>
+      
+      </Frame>
+
+    </AnimatePresence>
       <SpawnerCreatorContainer />
       <GameGridViewContainer />
       <SpawnerOverview />
@@ -53,7 +88,6 @@ const GameContainer = () => {
       >
         End Game
       </button>
-    </>
   );
 };
 

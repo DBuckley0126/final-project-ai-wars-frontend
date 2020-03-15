@@ -99,6 +99,7 @@ function* initGameOverseerSubscription(action) {
       }
     );
     yield put(actions.addGameOverseerSub(gameOverseerSub));
+    yield put(actions.updateShowLobby(true));
   } catch (error) {
     console.log(error);
     yield put(actions.updateErrorForGameOverseer(true));
@@ -154,6 +155,8 @@ function* exitLobby(action) {
 
   try {
     yield put(actions.updateStartGame(false));
+    yield put(actions.updateShowLobby(false));
+    yield delay(2000);
     yield gameOverseerSub.unsubscribe();
     yield put(actions.resetGameOverseer());
     yield (gameOverseerSub = null);

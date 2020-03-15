@@ -23,7 +23,7 @@ const CountDownTimer = props => {
     };
   }, [dispatch, timeValue]);
 
-  return <p>{timeValue}</p>;
+  return timeValue;
 };
 
 export default CountDownTimer;

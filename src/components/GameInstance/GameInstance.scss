@@ -1,18 +1,48 @@
-.game-instance-overview {
-  background: #724ce6;
-  width: 400px;
-  height: 200px;
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  align-items: baseline;
-  align-content: center;
-  margin: 50px;
+.user-profile-picture {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  position: absolute;
+  left: 40px;
+}
 
-  .user-profile-picture {
-    width: 100px;
-    height: 100px;
-  }
+.game-instance-user-name {
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 30px;
+  font-weight: 500;
+  position: absolute;
+  left: 200px;
+  top: 60px;
+  margin: 0px;
+}
+
+.game-instance-skill-rating {
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  position: absolute;
+  left: 200px;
+  top: 100px;
+  margin: 0px;
+}
+
+.game-instance-join-button {
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.join-user-profile-picture {
+  right: 50px;
+  left: unset;
+}
+
+.game-instance-capacity {
+  left: 330px;
+  position: relative;
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
 }
 
 
