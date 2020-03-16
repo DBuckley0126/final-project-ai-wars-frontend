@@ -9,9 +9,9 @@ import "./SpawnerCreatorContainer.scss";
 import SpawnerSkillsPicker from "../../components/SpawnerSkillsPicker/SpawnerSkillsPicker";
 import useCurrentTurn from "../../hooks/useCurrentTurn/useCurrentTurn";
 import useLocalUserType from "../../hooks/useLocalUserType/useLocalUserType";
+import { Frame, AnimatePresence, useAnimation } from "framer";
 
 const SpawnerCreatorContainer = () => {
-  console.log("Rendering Spawner Creator Container");
   const dispatch = useDispatch();
 
   const editorRef = React.createRef();
@@ -50,10 +50,6 @@ const SpawnerCreatorContainer = () => {
     );
   };
 
-  const editorSession = () => {
-    console.log(currentPickedColour);
-  };
-
   const passPickedColour = colourValue => {
     currentPickedColour = colourValue;
   };
@@ -66,35 +62,111 @@ const SpawnerCreatorContainer = () => {
     currentSkillHash = skillHash;
   };
 
+  const spawnerCreatorVariants = {
+    unActive: {
+      opacity: 0,
+      visable: 0
+    },
+    active: {
+      opacity: 1,
+      visable: 1,
+      transition: {
+        duration: 0.5,
+        delay: 6
+      }
+    }
+  };
+
+  const redoUndoButtonVariants = {
+    unActive: {
+      opacity: 0
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        delay: 10.8,
+        duration: 0.4
+      }
+    }
+  }
+
+
   return (
-    <div className="spawner-creator-container">
-      <SpawnerColourPicker passPickedColour={passPickedColour} />
-      <SpawnerSkillsPicker passSkillHash={passSkillHash} />
-      <SpawnerNameInput passSpawnerName={passSpawnerName} />
-      <Editor editorR={editorRef} />
-      <button
-        onClick={() => {
-          editorUndo();
+    <AnimatePresence>
+
+      <Frame
+        id="spawner-creator-container"
+        initial="unActive"
+        animate="active"
+        style={{
+          backgroundColor: "",
+          width: "100%",
+          height: "100%"
         }}
+        variants={spawnerCreatorVariants}
+        center="x"
       >
-        Undo
-      </button>
-      <button
-        onClick={() => {
-          editorRedo();
-        }}
-      >
-        redo
-      </button>
-      <button
-        onClick={() => {
-          editorSession();
-        }}
-      >
-        Current Colour
-      </button>
-      <SubmitButton sendEditorContents={sendEditorContents} />
-    </div>
+        <SpawnerColourPicker passPickedColour={passPickedColour} />
+        <SpawnerSkillsPicker passSkillHash={passSkillHash} />
+        <SpawnerNameInput passSpawnerName={passSpawnerName} />
+        <Editor editorR={editorRef} />
+        <Frame
+          id="spawner-creator-container-undo-button"
+          onClick={() => {
+            editorUndo();
+          }}
+          style={{
+            backgroundColor: "rgb(232, 232, 232)",
+            width: "60px",
+            height: "60px",
+            x: "160px",
+            bottom: "20px",
+            cursor: "pointer",
+            fontSize: "44px",
+            shadow: "rgba(250, 250, 250, 0.3) 0px 0px 6px 1px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+          whileHover={{
+            scale: 1.02,
+            shadow: "rgba(250, 250, 250, 0.5) 0px 0px 10px 1px"
+          }}
+          center="x"
+          initial="unActive"
+          animate="active"
+          variants={redoUndoButtonVariants}
+        ></Frame>
+        <SubmitButton sendEditorContents={sendEditorContents} />
+        <Frame
+          id="spawner-creator-container-redo-button"
+          style={{
+            backgroundColor: "rgb(232, 232, 232)",
+            width: "60px",
+            height: "60px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            x: "-160px",
+            shadow: "rgba(250, 250, 250, 0.3) 0px 0px 6px 1px",
+            bottom: "20px",
+            cursor: "pointer",
+            fontSize: "44px"
+          }}
+          center="x"
+          onClick={() => {
+            editorRedo();
+          }}
+          whileHover={{
+            scale: 1.02,
+            shadow: "rgba(250, 250, 250, 0.5) 0px 0px 10px 1px"
+          }}
+          initial="unActive"
+          animate="active"
+          variants={redoUndoButtonVariants}
+        ></Frame>
+      </Frame>
+    </AnimatePresence>
   );
 };
 
@@ -107,37 +179,62 @@ const SubmitButton = props => {
 
   const sendEditorContents = props.sendEditorContents;
 
-  if (turnSent) {
-    return (
-      <button
-        className="spawner-submit-button spawner-submit-button-sent"
-        disabled={true}
-        onClick={() => {
-          sendEditorContents();
-        }}
-      >
-        Spawner Sent
-      </button>
-    );
-  } else if (currentTurn === localUser) {
-    return (
-      <button
-        className="spawner-submit-button"
-        onClick={() => {
-          sendEditorContents();
-        }}
-      >
-        Submit Spawner
-      </button>
-    );
-  } else {
-    return (
-      <button
-        className="spawner-submit-button spawner-submit-button-disabled"
-        disabled={true}
-      >
-        Waiting for Opponent
-      </button>
-    );
+  const handleClick = () => {
+    if (currentTurn === localUser) {
+      sendEditorContents();
+    }
+  };
+
+  const submitButtonVariants = {
+    unActive: {
+      opacity: 0
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        delay: 10.8,
+        duration: 0.4
+      }
+    }
   }
+
+  const generateButtonContents = () => {
+    if (turnSent) {
+      return "Spawner Sent";
+    } else if (currentTurn === localUser) {
+      return "Spawn";
+    } else {
+      return "Waiting";
+    }
+  };
+
+  return (
+    <Frame
+      onClick={handleClick}
+      id="spawner-submit-button"
+      style={{
+        cursor: currentTurn === localUser ? "pointer" : "",
+        backgroundColor: "rgb(232, 232, 232)",
+        shadow: "rgba(250, 250, 250, 0.3) 0px 0px 6px 1px",
+        width: "200px",
+        height: "60px",
+        bottom: "20px",
+        color: "rgb(19, 19, 19)",
+        fontFamily: "Maven Pro",
+        fontSize: "24px",
+        fontWeight: "500"
+      }}
+      whileHover={
+        currentTurn === localUser
+          ? { scale: 1.03, shadow: "rgba(250, 250, 250, 0.5) 0px 0px 10px 1px" }
+          : { scale: 1 }
+      }
+      center="x"
+      initial="unActive"
+      animate="active"
+      variants={submitButtonVariants}
+    >
+      {generateButtonContents()}
+    </Frame>
+  );
 };

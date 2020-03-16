@@ -11,6 +11,7 @@ import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import store from "./store";
 
+
 // Router setup
 import {
   BrowserRouter as Router,
@@ -21,6 +22,7 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
+
 
 ReactDOM.render(
   <Provider store={store}>

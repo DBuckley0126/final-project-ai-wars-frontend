@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Frame, AnimatePresence } from "framer";
 
 import useCurrentTurn from "../../hooks/useCurrentTurn/useCurrentTurn";
 
@@ -15,19 +16,56 @@ const TurnView = () => {
     if (currentTurn === "host_user") {
       let name = lobbyData.attributes.host_user.given_name;
       if (name) {
-        return <p>{name + "'s Turn"}</p>;
+        return name + "'s Turn";
       }
-      return <p>Player 1 Turn</p>;
+      return "Player 1 Turn";
     } else {
       let name = lobbyData.attributes.join_user.given_name;
       if (name) {
-        return <p>{name + "'s Turn"}</p>;
+        return name + "'s Turn";
       }
-      return <p>Player 2 Turn</p>;
+      return "Player 2 Turn";
     }
   };
 
-  return <div id="turn-view">{generateTurnView()}</div>;
+  const gameContainerTurnViewVariants = {
+    unActive: {
+      opacity: 0
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: "easeInOut",
+        delay: 3.5
+      }
+    }
+  }
+
+  return (
+    <Frame
+      id="game-container-turn-view"
+      initial="unActive"
+      animate="active"
+      style={{
+        backgroundColor: "",
+        width: "200px",
+        right: "50px",
+        height: "60px",
+        zIndex: 1,
+        x: 8,
+        y: 10,
+        color: "rgb(232, 232, 232)",
+        fontFamily: 'Maven Pro',
+        fontSize: "32px",
+        fontWeight: "500"
+      }}
+      variants={gameContainerTurnViewVariants}
+      center="y"
+    >
+      {generateTurnView()}
+    </Frame>
+  );
 };
 
 export default TurnView;

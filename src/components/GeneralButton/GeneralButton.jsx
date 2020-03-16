@@ -134,8 +134,8 @@ const GeneralButton = () => {
             cursor: "pointer"
           }}
           center
-          x="-500px"
-          y="-500px"
+          x="-540px"
+          y="0px"
           variants={generalButtonVariants}
         >
           <Frame

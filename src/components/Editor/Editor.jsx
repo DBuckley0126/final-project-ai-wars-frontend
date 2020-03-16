@@ -1,5 +1,6 @@
 import React from "react";
 import AceEditor from "react-ace";
+import { Frame, AnimatePresence, useAnimation } from "framer";
 
 import './Editor.scss'
 
@@ -9,34 +10,51 @@ import "ace-builds/src-noconflict/snippets/ruby";
 import "ace-builds/src-noconflict/theme-solarized_dark";
 
 const Editor = props => {
-  console.log("Rendering editor");
-  function onChange(newValue) {
-    console.log("change", newValue);
-  }
 
-  function onLoad(newValue) {
-    // props.editorR = newValue;
-    console.log("change", newValue);
+  const editorVariants = {
+    unActive: {
+      opacity: 0
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        delay: 10,
+        duration: 0.8
+      }
+    }
   }
 
   return (
-    <div id="editor">
+    <Frame 
+    id="editor"
+    style={{
+      width: "95%",
+      height: "auto",
+      top: "370px",
+      bottom: "100px"
+    }}
+    center="x"
+    initial="unActive"
+    animate="active"
+    variants={editorVariants}
+    >
       <AceEditor
         ref={props.editorR}
         placeholder="Code Editor"
         mode="ruby"
+        height="100%"
+        width="100%"
         theme="solarized_dark"
         name="ace-editor"
-        onLoad={onLoad}
-        onChange={onChange}
         fontSize={14}
         showPrintMargin={false}
         showGutter={true}
         highlightActiveLine={true}
-        value={`function onLoad(editor) {
-          console.log("i've loaded");
-
-        }`}
+        value={`class Pixeling < BasePixeling
+  def movement
+                
+  end
+end`}
         setOptions={{
           enableBasicAutocompletion: true,
           enableLiveAutocompletion: true,
@@ -45,9 +63,8 @@ const Editor = props => {
           tabSize: 2
         }}
       />
-    </div>
+    </Frame>
   );
-  // document.getElementById("example")
 };
 
 export default Editor;

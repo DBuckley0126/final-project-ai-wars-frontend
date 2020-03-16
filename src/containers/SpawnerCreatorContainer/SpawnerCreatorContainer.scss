@@ -1,11 +1,7 @@
-.spawner-submit-button {
-
+#spawner-creator-container-undo-button:after {
+  content: " \21BA";
 }
 
-.spawner-submit-button-disabled {
-  
-}
-
-.spawner-submit-button-sent {
-
+#spawner-creator-container-redo-button:after {
+  content: " \21BB";
 }

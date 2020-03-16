@@ -44,6 +44,20 @@ const MenuContainer = () => {
       transition: {
         delay: 1.3
       }
+    },
+    exitStartGame: {
+      opacity: 0,
+      visable: 0,
+      transition: {
+        delay: 1.5,
+        visable: {
+          delay: 4.2
+        },
+        opacity: {
+          delay: 4.2,
+          duration: 0.5
+        }
+      }
     }
   };
 
@@ -77,8 +91,17 @@ const MenuContainer = () => {
     exitStartGame: {
       width: ["800px", "800px", "800px", clientWidth],
       height: ["800px", clientHeight, clientHeight, clientHeight],
+      opacity: 0,
+      visable: 0,
       transition: {
         delay: 1.5,
+        visable: {
+          delay: 4.2
+        },
+        opacity: {
+          delay: 4.2,
+          duration: 0.5
+        },
         duration: 2,
         ease: "easeInOut",
         type: "tween"
@@ -88,45 +111,50 @@ const MenuContainer = () => {
   controlAnimation();
 
   return (
-    <Frame
-      className="menu-container"
-      initial={"unActive"}
-      animate={"active"}
-      width="100%"
-      height="100%"
-      style={{
-        backgroundColor: "rgb(19, 19, 19)",
-        position: "fixed",
-        top: 0,
-        left: 0
-      }}
-      variants={menuContainerVariants}
-    >
-      <PixelingBackdrop exitSignal={startGame} />
-      {renderGameInstances()}
-      <AnimatePresence>
-        {subscriptionActive && showLobby && (
-          <Frame
-            id="lobby-container"
-            key="lobby-container"
-            style={{
-              width: "800px",
-              height: "800px",
-              position: "absolute",
-              backgroundColor: ""
-            }}
-            visable={1}
-            animate={controls}
-            exit={"exitNormal"}
-            variants={lobbyContainerVariants}
-            center
-          >
-            <GameLobby />
-          </Frame>
-        )}
-      </AnimatePresence>
-      <GeneralButton />
-    </Frame>
+    <AnimatePresence>
+      {!startGame && (
+        <Frame
+          className="menu-container"
+          initial={"unActive"}
+          animate={"active"}
+          width="100%"
+          height="100%"
+          exit="exitStartGame"
+          style={{
+            backgroundColor: "rgb(19, 19, 19)",
+            position: "fixed",
+            top: 0,
+            left: 0
+          }}
+          variants={menuContainerVariants}
+        >
+          <PixelingBackdrop exitSignal={startGame} />
+          {renderGameInstances()}
+          <AnimatePresence>
+            {subscriptionActive && showLobby && (
+              <Frame
+                id="lobby-container"
+                key="lobby-container"
+                style={{
+                  width: "800px",
+                  height: "800px",
+                  position: "absolute",
+                  backgroundColor: ""
+                }}
+                visable={1}
+                animate={controls}
+                exit={"exitNormal"}
+                variants={lobbyContainerVariants}
+                center
+              >
+                <GameLobby />
+              </Frame>
+            )}
+          </AnimatePresence>
+          <GeneralButton />
+        </Frame>
+      )}
+    </AnimatePresence>
   );
 };
 
