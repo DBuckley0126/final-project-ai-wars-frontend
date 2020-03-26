@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import useAuth0 from "../../hooks/useAuth0/useAuth0";
 import acquireColourArray from "../../hooks/acquireColourArray/acquireColourArray";
 import PixelingBackdrop from "../PixelingBackdrop/PixelingBackdrop";
+import BackendSeverChecker from "../BackendSeverChecker/BackendSeverChecker";
 
 import "./SplashScreen.scss";
 
@@ -123,6 +124,7 @@ const SplashScreen = () => {
             </Frame>
           )}
           <StartAppButton />
+          <BackendSeverChecker />
           {/* <nav>
               <Link to={"/how-to-use"}>How to use</Link>
             </nav> */}

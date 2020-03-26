@@ -1,7 +1,8 @@
 const initialState = {
   startApp: false,
   startGame: false,
-  showLobby: false
+  showLobby: false,
+  backendSeverActive: false
 };
 
 export default function appReducer(state = initialState, action) {
@@ -12,6 +13,8 @@ export default function appReducer(state = initialState, action) {
       return { ...state, showLobby: action.payload };
     case "UPDATE_START_GAME":
       return { ...state, startGame: action.payload };
+    case "TOGGLE_BACKEND_SEVER_ACTIVE":
+      return { ...state, backendSeverActive: action.payload };
     default:
       return state;
   }

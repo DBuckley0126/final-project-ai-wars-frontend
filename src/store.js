@@ -5,6 +5,7 @@ import useAuth0Watchers from "./hooks/useAuth0/useAuth0Watchers";
 import gameOverseerSubscriptionWatchers from "./cables/gameOverseerSubscription/gameOverseerSubscriptionWatchers";
 import gameInstancesOverseerSubscriptionWatchers from "./cables/gameInstancesOverseerSubscription/gameInstancesOverseerSubscriptionWatchers";
 import actionCableWatchers from "./cables/actionCable/actionCableWatchers";
+import appWatchers from "./cables/app/appWatchers";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -24,6 +25,7 @@ function configureStore(initialState) {
   sagaMiddleware.run(gameOverseerSubscriptionWatchers);
   sagaMiddleware.run(gameInstancesOverseerSubscriptionWatchers);
   sagaMiddleware.run(actionCableWatchers);
+  sagaMiddleware.run(appWatchers);
 
   return store;
 }

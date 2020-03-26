@@ -14,6 +14,7 @@ const StartAppButton = () => {
   const loginWithRedirect = useSelector(state => state.auth0.loginWithRedirect);
   const logout = useSelector(state => state.auth0.logout);
   const startAppSignal = useSelector(state => state.app.startApp);
+  const backendSeverActive = useSelector(state => state.app.backendSeverActive);
 
   // nickname for non google user
   // given_name for google user
@@ -164,7 +165,9 @@ const StartAppButton = () => {
 
   return (
     <AnimatePresence>
-      <Frame
+      {backendSeverActive && (
+        <AnimatePresence>
+          <Frame
         onClick={() => handleMainButtonClick()}
         id="splash-screen-main-button"
         initial={"unActive"}
@@ -237,6 +240,9 @@ const StartAppButton = () => {
           </Frame>
         </Frame>
       )}
+        </AnimatePresence>
+      )}
+      
     </AnimatePresence>
   );
 };

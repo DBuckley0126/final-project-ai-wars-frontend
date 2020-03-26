@@ -21,6 +21,10 @@ const App = () => {
   const startApp = useSelector(state => state.app.startApp);
   const startGame = useSelector(state => state.app.startGame);
 
+  const dispatch = useDispatch();
+
+  dispatch({ type: "CHECK_BACKEND_SERVER_STATUS" });
+
   // const history = useHistory();
 
   // if (startApp) {
