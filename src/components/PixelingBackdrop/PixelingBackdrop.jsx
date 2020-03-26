@@ -275,7 +275,7 @@ const Pixeling = props => {
     <AnimatePresence>
       {!exitSignal && (
         <Frame
-          class="splash-screen-pixeling"
+          className="splash-screen-pixeling"
           key={`splash-screen-pixeling-${key}`}
           center
           style={{

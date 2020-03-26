@@ -3,14 +3,11 @@ import ReactDOM from "react-dom";
 import "./scss/App.scss";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-
-// Fonts
-// import './fonts/Cold_Warm.otf'
+import HttpsRedirect from 'react-https-redirect';
 
 // Redux setup
 import { Provider } from "react-redux";
 import store from "./store";
-
 
 // Router setup
 import {
@@ -26,9 +23,11 @@ import {
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
+    <HttpsRedirect>
+      <Router>
+        <App />
+      </Router>
+    </HttpsRedirect>
   </Provider>,
   document.getElementById("root")
 );
