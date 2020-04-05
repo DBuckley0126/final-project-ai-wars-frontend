@@ -155,9 +155,24 @@ const GameInstancesContainer = () => {
           }}
           center="x"
         ></Frame>
+
       </Frame>
     </AnimatePresence>
   );
 };
 
 export default GameInstancesContainer;
+
+
+const NoGamesWarning = () => {
+
+  const gameInstances = useSelector(
+    state => state.gameInstancesOverseer.gameInstances
+  );
+
+  return (
+    <AnimatePresence>
+      {!gameInstances}
+    </AnimatePresence>
+  )
+}
