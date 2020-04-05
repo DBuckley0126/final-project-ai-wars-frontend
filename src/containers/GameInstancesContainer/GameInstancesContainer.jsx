@@ -155,7 +155,7 @@ const GameInstancesContainer = () => {
           }}
           center="x"
         ></Frame>
-
+        <NoGamesWarning />
       </Frame>
     </AnimatePresence>
   );
@@ -163,16 +163,48 @@ const GameInstancesContainer = () => {
 
 export default GameInstancesContainer;
 
-
 const NoGamesWarning = () => {
-
   const gameInstances = useSelector(
     state => state.gameInstancesOverseer.gameInstances
   );
 
+  const noGamesWarningVariants = {
+    unActive: {
+      opacity: 0
+    },
+    active: {
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeInOut",
+        delay: 0
+      }
+    }
+  };
+
   return (
     <AnimatePresence>
-      {!gameInstances}
+      {!gameInstances && (
+        <Frame
+          id="no-games-warning"
+          initial="unActive"
+          animate="active"
+          exit="unActive"
+          variants={noGamesWarningVariants}
+          style={{
+            backgroundColor: "",
+            width: "400px",
+            height: "100px",
+            color: "rgb(232, 232, 232)",
+            fontFamily: "Maven Pro",
+            fontSize: "26px",
+            fontWeight: "500"
+          }}
+          center
+        >
+          No games currently
+        </Frame>
+      )}
     </AnimatePresence>
-  )
-}
+  );
+};
