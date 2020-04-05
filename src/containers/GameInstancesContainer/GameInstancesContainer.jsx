@@ -177,14 +177,15 @@ const NoGamesWarning = () => {
       transition: {
         duration: 0.4,
         ease: "easeInOut",
-        delay: 0
+        delay: 3
       }
     }
   };
 
+
   return (
     <AnimatePresence>
-      {!gameInstances && (
+      {gameInstances.length === 0 && (
         <Frame
           id="no-games-warning"
           initial="unActive"
@@ -195,9 +196,9 @@ const NoGamesWarning = () => {
             backgroundColor: "",
             width: "400px",
             height: "100px",
-            color: "rgb(232, 232, 232)",
+            color: "rgb(19, 19, 19)",
             fontFamily: "Maven Pro",
-            fontSize: "26px",
+            fontSize: "34px",
             fontWeight: "500"
           }}
           center

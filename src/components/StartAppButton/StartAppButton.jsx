@@ -168,81 +168,80 @@ const StartAppButton = () => {
       {backendSeverActive && (
         <AnimatePresence>
           <Frame
-        onClick={() => handleMainButtonClick()}
-        id="splash-screen-main-button"
-        initial={"unActive"}
-        whileHover={() => hoverStyle()}
-        animate={"active"}
-        style={{
-          backgroundColor: "rgb(232, 232, 232)",
-          cursor: "pointer"
-        }}
-        variants={mainButtonVariants}
-        center
-      >
-        {userSynced ? "Start" : "Login"}
-      </Frame>
-      {user && !startAppSignal && (
-        <Frame
-          id="splash-screen-logout-button"
-          key="splash-screen-logout-button"
-          onClick={() => logout({ returnTo: window.location.origin })}
-          center
-          initial={"unActive"}
-          whileHover={() => hoverStyle()}
-          animate={"active"}
-          exit={"unActive"}
-          style={{
-            backgroundColor: "rgb(232, 232, 232)",
-            cursor: "pointer"
-          }}
-          variants={logoutButtonVariants}
-        >
-          <Frame
-            background=""
-            center
-            transition={{ duration: 0.2 }}
-            variants={logoutButtonItemVariants}
-          >
-            Logout
-          </Frame>
-        </Frame>
-      )}
-      {userSynced && !startAppSignal && (
-        <Frame
-          id="splash-screen-account-info"
-          key="splash-screen-account-info"
-          initial={"unActive"}
-          whileHover={() => hoverStyle()}
-          animate={"active"}
-          exit={"unActive"}
-          center
-          style={{
-            backgroundColor: "rgb(232, 232, 232)"
-          }}
-          variants={accountInfoVariants}
-        >
-          <Frame
-            id="splash-screen-account-info-details"
-            key="splash-screen-account-info-details"
-            background=""
+            onClick={() => handleMainButtonClick()}
+            id="splash-screen-main-button"
+            initial={"unActive"}
+            whileHover={() => hoverStyle()}
+            animate={"active"}
             style={{
-              display: "flex",
-              width: "100%",
-              height: "100%",
-              alignItems: "center",
-              flexDirection: "column"
+              backgroundColor: "rgb(232, 232, 232)",
+              cursor: "pointer"
             }}
-            transition={{ duration: 0.2 }}
-            variants={accountInfoChildrenVariants}
+            variants={mainButtonVariants}
+            center
           >
-            {generateAccountInfo()}
+            {userSynced ? "Start" : "Login"}
           </Frame>
-        </Frame>
-      )}
+          {user && !startAppSignal && (
+            <Frame
+              id="splash-screen-logout-button"
+              key="splash-screen-logout-button"
+              onClick={() => logout({ returnTo: window.location.origin })}
+              center
+              initial={"unActive"}
+              whileHover={() => hoverStyle()}
+              animate={"active"}
+              exit={"unActive"}
+              style={{
+                backgroundColor: "rgb(232, 232, 232)",
+                cursor: "pointer"
+              }}
+              variants={logoutButtonVariants}
+            >
+              <Frame
+                background=""
+                center
+                transition={{ duration: 0.2 }}
+                variants={logoutButtonItemVariants}
+              >
+                Logout
+              </Frame>
+            </Frame>
+          )}
+          {userSynced && !startAppSignal && (
+            <Frame
+              id="splash-screen-account-info"
+              key="splash-screen-account-info"
+              initial={"unActive"}
+              whileHover={() => hoverStyle()}
+              animate={"active"}
+              exit={"unActive"}
+              center
+              style={{
+                backgroundColor: "rgb(232, 232, 232)"
+              }}
+              variants={accountInfoVariants}
+            >
+              <Frame
+                id="splash-screen-account-info-details"
+                key="splash-screen-account-info-details"
+                background=""
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  height: "100%",
+                  alignItems: "center",
+                  flexDirection: "column"
+                }}
+                transition={{ duration: 0.2 }}
+                variants={accountInfoChildrenVariants}
+              >
+                {generateAccountInfo()}
+              </Frame>
+            </Frame>
+          )}
         </AnimatePresence>
       )}
-      
     </AnimatePresence>
   );
 };
