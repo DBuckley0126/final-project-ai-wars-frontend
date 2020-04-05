@@ -182,7 +182,6 @@ const NoGamesWarning = () => {
     }
   };
 
-
   return (
     <AnimatePresence>
       {gameInstances.length === 0 && (
@@ -203,7 +202,38 @@ const NoGamesWarning = () => {
           }}
           center
         >
-          No games currently
+          <Frame
+            id="no-games-warning-top-text"
+            style={{
+              backgroundColor: "",
+              width: "400px",
+              height: "100px",
+              color: "rgb(19, 19, 19)",
+              fontFamily: "Maven Pro",
+              fontSize: "42px",
+              fontWeight: "500",
+              y: -25
+            }}
+            center
+          >
+            No games currently
+          </Frame>
+          <Frame
+            id="no-games-warning-bottom-text"
+            style={{
+              backgroundColor: "",
+              width: "400px",
+              height: "100px",
+              color: "rgb(19, 19, 19)",
+              fontFamily: "Maven Pro",
+              fontSize: "28px",
+              fontWeight: "500",
+              y: 25
+            }}
+            center
+          >
+            Invite a friend to play!
+          </Frame>
         </Frame>
       )}
     </AnimatePresence>
